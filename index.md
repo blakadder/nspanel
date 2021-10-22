@@ -114,6 +114,7 @@ When initially drawing widgets you need to send commands for all 8 indexes, if y
 {"relation":[{"ctype":"group","id":"1000f190e6","params":{"switches":[{"switch":"off","outlet":0},{"switch":"off","outlet":1},{"switch":"on","outlet":2},{"switch":"on","outlet":3}]}}]}
 {"relation":[{"ctype":"scene","id":"6164676632647f2a6d593cf2","name":"Scene"}]}
 ```
+
 | Key | Action and options<BR>`%b` = binary 0 or 1,`%d` = number, `%s` = string                | Notes        | Type |
 |------------|------------------------------|---|------|
 | `"ctype":"%s"` | Identical to the "ctype" used when drawing the widget  | | 86 |
