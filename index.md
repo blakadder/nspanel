@@ -9,7 +9,7 @@
 |--------------|------------------------------|---|------|
 | `{"queryInfo":"version"}`| Query screen version                  |     | 80   |
 | `{"queryInfo":"factory"}`| Enter factory test mode               |     | 80   |
-| `{"HMI_dimOpen":%b}`     | Set screen saver<BR>`0` = screen always on<BR>`1` = screen off                         |     | 87   |
+| `{"HMI_dimOpen":%b}`     | Set Energy-saving mode<BR>`0` = screen always on<BR>`1` = screen off        |     | 87   |
 
 ## Main Page
 
@@ -20,12 +20,13 @@
 | `{"tempUnit":%b}`        | Set displayed temperature unit<BR>`0` = °C<BR>`1` = °F   |     | 83   |
 | `{"year":1970,"mon":1,"day":1,"hour":2,"min":0,"week":4}`<BR>`{"year":2021,"mon":10,"day":12,"hour":23,"min":22,"week":2}` | `week` is weekday, the rest is obvious | Every entry must respect the range for its type, f.e. month cannot be higher than 12 | 82   |
 
-### Set relay status
+### Show relays status
 
 Typical payload
 ```json
 {"switches":[{"outlet":1,"switch":"on"}]}
 ```
+| JSON Payload | Action and options<BR>`%b` = binary 0 or 1,`%d` = number, `%s` = string                | Notes         | Type |
 |------------|------------------------------|---|------|
 | `"outlet":%b` | Choose relay<BR>&emsp;`0` = Relay1<BR>&emsp;`1` = Relay2   | | 87 |
 | `"switch":"%s"` | Set status on main page<BR>`%S` = `on` or `off`          | | 87 |
