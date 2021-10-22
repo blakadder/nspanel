@@ -15,10 +15,6 @@ Typical payloads
 {"ATCMode":1,"ATCExpect1":29}
 {"ATCEnable":1}
 ```  
-Original payload to activate thermostat screen
-```json
-{"HMI_ATCDevice":{"ctype":"device","id":"1001383218","outlet":0,"etype":"hot"}}
-```
   
   |                                                              | Action and options<BR>`%b` = binary 0 or 1,`%d` = number, `%s` = string                                                                                                                                          | Notes                                                                                                    | Type |
 |---------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|------|
@@ -26,7 +22,20 @@ Original payload to activate thermostat screen
 | `"ATCMode":%b`                                                          | Thermostat screen mode icons<BR>`0` = manual<BR>`1` = auto | Same payload is received when using the toggle on the screen | 84   |
 | `"ATCExpect0":%d`                                                       | Thermostat screen temperature for manual mode | Same payload is received when using the toggle on the screen | 84   |
 | `"ATCExpect1":%d`                                                       | Thermostat screen temperature for auto mode | Same payload is received when using the toggle on the screen | 84   |
-| `"HMI_ATCDevice":{"ctype":"device","id":"%s","outlet":%b,"etype":"%s"}` | Activate thermostat page<BR>id `%s` = identification string<BR> outlet `%b` = `0` for Relay1 or `1` for Relay2 used for thermostat<BR> etype `%s` = `hot` or `cold` | Nextion returns `{"ctype":"device","id":"%s","resourcetype":"ATC"}`| 84   |
+  
+### Activate thermostat page
+Original payload to activate thermostat screen
+```json
+{"HMI_ATCDevice":{"ctype":"device","id":"1001383218","outlet":0,"etype":"hot"}}
+```
+  
+  |                                                              | Action and options<BR>`%b` = binary 0 or 1,`%d` = number, `%s` = string                                                                                                                                          | Notes                                                                                                    | Type |
+|---------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|------|
+  | `"id":"%s"` | `%s` = identification string| 84   |
+| `"outlet":%b` | `%b` = relay used to control thermostat<BR>&emsp;`0` = Relay1<BR>&emsp;`1` = Relay2 | Does not matter without original firmware| 84   |
+| `"etype":"%s"` | `%s` = `hot` or `cold` | Draws different icon on the page | 84   |
+  
+On success Nextion returns `{"ctype":"device","id":"%s","resourcetype":"ATC"}`
 
 ### Set weather forecast display
 
