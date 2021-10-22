@@ -1,6 +1,6 @@
 # NSPanel Protocol 
 ```
-55 AA [type] [payload length] [00] JSON [payload] [crc] [crc]
+55 AA [type] [payload length] [00] [JSON payload] [crc] [crc]
 ```
 
 [What is JSON?](JSON: What It Is, How It Works, & How to Use It)
