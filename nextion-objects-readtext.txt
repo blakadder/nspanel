@@ -11,76 +11,7 @@ pages
 9 -  thermostat
 10 - ???
 
-Page   0:
-    Component   1:
-        Type: 51 (Timer)
-        tim:  50
-        en:   1
-    Component   2:
-        Type: 112 (Picture)
-        x:    67
-        y:    62
-        w:    330
-        h:    246
-        pic:  28
-    Component   3:
-        Type: 112 (Picture)
-        x:    105
-        y:    104
-        w:    272
-        h:    81
-        pic:  0
-    Component   4:
-        Type:     52 (Variable)
-        sta:      0
-        val:      120
-    Component   5:
-        Type: 51 (Timer)
-        tim:  120
-        en:   1
-    Component   6:
-        Type:     52 (Variable)
-        sta:      0
-        val:      22
-
-Done.
-
-D:\Google Drive\_projects\NSPanel>python Reenigne.py
-Page   0:
-    Component   1:
-        Type: 51 (Timer)
-        tim:  50
-        en:   1
-    Component   2:
-        Type: 112 (Picture)
-        x:    67
-        y:    62
-        w:    330
-        h:    246
-        pic:  28
-    Component   3:
-        Type: 112 (Picture)
-        x:    105
-        y:    104
-        w:    272
-        h:    81
-        pic:  0
-    Component   4:
-        Type:     52 (Variable)
-        sta:      0
-        val:      120
-    Component   5:
-        Type: 51 (Timer)
-        tim:  120
-        en:   1
-    Component   6:
-        Type:     52 (Variable)
-        sta:      0
-        val:      22
-
-Done.
-
-D:\Google Drive\_projects\NSPanel>python Reenigne.py
+>python Reenigne.py
 Page   0:
     Component   1:
         Type: 51 (Timer)
