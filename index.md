@@ -15,7 +15,7 @@
 
 ## Main Page
 
-| JSON Payload | Action and options<BR>`%b` = binary 0 or 1,`%d` = number, `%s` = string                | Notes         | Type |
+| JSON Payload | Action and options<BR>`%b` = 0 or 1,`%d` = number, `%s` = string                | Notes         | Type |
 |------------|------------------------------|---|------|
 | `{"wifiState":"%s","rssiLevel":%d}` | Set wifi icon<BR>`%s` = connecting; disconnect; pairing; nonetwork<BR>RssiLevel `%d` = 0 – 4         | if using higher number draws other picture resources    | 85   |
 | `{"temperature":%d,"humidity":%d,"tempUnit":%d}` | Set room temperature<BR>temperature `%d` = up to 5 characters, decimals are ignored but can be in the parameter       | humidity isn't displayed<BR>temperature can be up to 5 characters<B>5th character overwrites the unit | 83   |
@@ -28,7 +28,7 @@ Typical payload
 ```json
 {"switches":[{"outlet":1,"switch":"on"}]}
 ```
-| JSON Payload | Action and options<BR>`%b` = binary 0 or 1,`%d` = number, `%s` = string                | Notes         | Type |
+| JSON Payload | Action and options<BR>`%b` = 0 or 1,`%d` = number, `%s` = string                | Notes         | Type |
 |------------|------------------------------|---|------|
 | `"outlet":%b` | Choose relay<BR>&emsp;`0` = Relay1<BR>&emsp;`1` = Relay2   | | 87 |
 | `"switch":"%s"` | Set status on main page<BR>`%S` = `on` or `off`          | | 87 |
@@ -42,7 +42,7 @@ Typical payload
 {"HMI_weather":7,"HMI_outdoorTemp":{"current":5,"range":"-3,8"}}
 ```
   
-| Key | Action and options<BR>`%b` = binary 0 or 1,`%d` = number, `%s` = string                | Notes         | Type |
+| Key | Action and options<BR>`%b` = 0 or 1,`%d` = number, `%s` = string                | Notes         | Type |
 |------------|------------------------------|---|------|
 |   `"HMI_weather":%d`      | 1   =   sunny   <BR>2   =   sun+cloud   <BR>7   =   cloud+blue cloud    <BR>11  =   cloud+fog <BR>15  =   cloud rain lightning    <BR>20  =   cloud+snowflake <BR>22  =   cloud + 3 snowflakes    <BR>22  =   cloud + 5 ice crystals  <BR>22  =   cloud + rain + snow <BR>30  =   red thermostat  <BR>31  =   blue thermostat <BR>32  =   wind    <BR>40  =   rainy cloud <BR> | Icons repeat under different numbers. When using a non-existing number Nextion returns `{"error":2}` | 81   |
 |   `"HMI_outdoorTemp":%d`      | `%d` = Set outdoor temperature | 5 characters max, 5th character overwrites the unit on the display | 81   |
@@ -60,7 +60,7 @@ Typical payloads
 {"ATCEnable":1}
 ```  
   
-| Key | Action and options<BR>`%b` = binary 0 or 1,`%d` = number, `%s` = string                | Notes         | Type |
+| Key | Action and options<BR>`%b` = 0 or 1,`%d` = number, `%s` = string                | Notes         | Type |
 |------------|------------------------------|---|------|
 | `"ATCEnable":%b`       | Thermostat screen toggle<BR>`0` = off<BR>`1` = off | Same payload is received when using the toggle on the screen | 84   |
 | `"ATCMode":%b`         | Thermostat screen mode icons<BR>`0` = manual<BR>`1` = auto | Same payload is received when using the toggle on the screen | 84   |
@@ -74,7 +74,7 @@ Original payload to activate thermostat screen
 {"HMI_ATCDevice":{"ctype":"device","id":"1001383218","outlet":0,"etype":"hot"}}
 ```
   
-| Key | Action and options<BR>`%b` = binary 0 or 1,`%d` = number, `%s` = string                | Notes        | Type |
+| Key | Action and options<BR>`%b` = 0 or 1,`%d` = number, `%s` = string                | Notes        | Type |
 |------------|------------------------------|---|------|
 | `"id":"%s"` | `%s` = identification string |                                                            | 84 |
 | `"outlet":%b` | `%b` = relay used to control thermostat<BR>&emsp;`0` = Relay1<BR>&emsp;`1` = Relay2 | Does not matter without original firmware| 84 |
@@ -94,7 +94,7 @@ Typical payloads
 {"index":7,"type":"delete"}
 ```
 
-| Key | Action and options<BR>`%b` = binary 0 or 1,`%d` = number, `%s` = string                | Notes        | Type |
+| Key | Action and options<BR>`%b` = 0 or 1,`%d` = number, `%s` = string                | Notes        | Type |
 |------------|------------------------------|---|------|
 | `"index":%d` | Set position of widget<BR>`1` to `8` counting from top left to right |                                                            | 86 |
 | `"ctype":"%s"` | Set type of widget<BR>&emsp;`device` = basic widget tracks online and offline status<BR>&emsp;`group` = same as device but always online<BR>&emsp;`scene` = trigger immediately, has no submenu | | 86 |
@@ -115,7 +115,7 @@ When initially drawing widgets you need to send commands for all 8 indexes, if y
 {"relation":[{"ctype":"scene","id":"6164676632647f2a6d593cf2","name":"Scene"}]}
 ```
 
-| Key | Action and options<BR>`%b` = binary 0 or 1,`%d` = number, `%s` = string                | Notes        | Type |
+| Key | Action and options<BR>`%b` = 0 or 1,`%d` = number, `%s` = string                | Notes        | Type |
 |------------|------------------------------|---|------|
 | `"ctype":"%s"` | Identical to the "ctype" used when drawing the widget  | | 86 |
 | `"id":%s` | Identical to the "id" used when drawing the widget | | 86 |
