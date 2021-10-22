@@ -1,0 +1,3272 @@
+pages
+0 - boot screen
+1 - main page
+2 - settings
+3 - thermostat
+4 - widgets
+5 - 4 outlets page
+6 - color wheel
+7 - please create widgets
+8 - pairing screen
+9 -  thermostat
+10 - ???
+
+Page   0:
+    Component   1:
+        Type: 51 (Timer)
+        tim:  50
+        en:   1
+    Component   2:
+        Type: 112 (Picture)
+        x:    67
+        y:    62
+        w:    330
+        h:    246
+        pic:  28
+    Component   3:
+        Type: 112 (Picture)
+        x:    105
+        y:    104
+        w:    272
+        h:    81
+        pic:  0
+    Component   4:
+        Type:     52 (Variable)
+        sta:      0
+        val:      120
+    Component   5:
+        Type: 51 (Timer)
+        tim:  120
+        en:   1
+    Component   6:
+        Type:     52 (Variable)
+        sta:      0
+        val:      22
+
+Done.
+
+D:\Google Drive\_projects\NSPanel>python Reenigne.py
+Page   0:
+    Component   1:
+        Type: 51 (Timer)
+        tim:  50
+        en:   1
+    Component   2:
+        Type: 112 (Picture)
+        x:    67
+        y:    62
+        w:    330
+        h:    246
+        pic:  28
+    Component   3:
+        Type: 112 (Picture)
+        x:    105
+        y:    104
+        w:    272
+        h:    81
+        pic:  0
+    Component   4:
+        Type:     52 (Variable)
+        sta:      0
+        val:      120
+    Component   5:
+        Type: 51 (Timer)
+        tim:  120
+        en:   1
+    Component   6:
+        Type:     52 (Variable)
+        sta:      0
+        val:      22
+
+Done.
+
+D:\Google Drive\_projects\NSPanel>python Reenigne.py
+Page   0:
+    Component   1:
+        Type: 51 (Timer)
+        tim:  50
+        en:   1
+    Component   2:
+        Type: 112 (Picture)
+        x:    67
+        y:    62
+        w:    330
+        h:    246
+        pic:  28
+    Component   3:
+        Type: 112 (Picture)
+        x:    105
+        y:    104
+        w:    272
+        h:    81
+        pic:  0
+    Component   4:
+        Type:     52 (Variable)
+        sta:      0
+        val:      120
+    Component   5:
+        Type: 51 (Timer)
+        tim:  120
+        en:   1
+    Component   6:
+        Type:     52 (Variable)
+        sta:      0
+        val:      22
+    Component   7:
+        Type:     116 (Text)
+        x:        330
+        y:        94
+        w:        98
+        h:        24
+        txt_maxl: 15
+        txt:      "0/0   "
+    Component   8:
+        Type:     116 (Text)
+        x:        319
+        y:        190
+        w:        109
+        h:        43
+        txt_maxl: 7
+        txt:      "℃"
+    Component   9:
+        Type: 112 (Picture)
+        x:    20
+        y:    299
+        w:    187
+        h:    4
+        pic:  42
+    Component  10:
+        Type: 112 (Picture)
+        x:    241
+        y:    299
+        w:    187
+        h:    4
+        pic:  44
+    Component  11:
+        Type: 54 (Number)
+        x:    280
+        y:    34
+        w:    65
+        h:    56
+        val:  0
+    Component  12:
+        Type: 54 (Number)
+        x:    367
+        y:    34
+        w:    66
+        h:    56
+        val:  0
+    Component  13:
+        Type: 51 (Timer)
+        tim:  50
+        en:   0
+    Component  14:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  15:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  16:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  17:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  18:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 200
+        txt:
+    Component  19:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 20
+        txt:
+    Component  20:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  21:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 30
+        txt:
+    Component  22:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 30
+        txt:
+    Component  23:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 30
+        txt:      "0"
+    Component  24:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 30
+        txt:      "0"
+    Component  25:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 5
+        txt:      "0"
+    Component  26:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    0
+        w:    14
+        h:    18
+    Component  27:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 5
+        txt:      "0"
+    Component  28:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 5
+        txt:      "0"
+    Component  29:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 7
+        txt:
+    Component  30:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 25
+        txt:
+    Component  31:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 5
+        txt:
+    Component  32:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    18
+        w:    14
+        h:    18
+    Component  33:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 3
+        txt:
+    Component  34:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 2
+        txt:
+    Component  35:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    72
+        w:    14
+        h:    17
+    Component  36:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 30
+        txt:
+    Component  37:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 3
+        txt:
+    Component  38:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 512
+        txt:
+    Component  39:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 100
+        txt:
+    Component  40:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 1
+        txt:
+    Component  41:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 5
+        txt:
+    Component  42:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 5
+        txt:
+    Component  43:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 3
+        txt:      "℃"
+    Component  44:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    54
+        w:    14
+        h:    18
+    Component  45:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 4
+        txt:
+    Component  46:
+        Type: 112 (Picture)
+        x:    460
+        y:    157
+        w:    4
+        h:    131
+        pic:  80
+    Component  47:
+        Type: 112 (Picture)
+        x:    460
+        y:    12
+        w:    4
+        h:    131
+        pic:  80
+    Component  48:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    36
+        w:    14
+        h:    18
+    Component  49:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    303
+        w:    13
+        h:    17
+    Component  50:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    285
+        w:    14
+        h:    18
+    Component  51:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    267
+        w:    14
+        h:    18
+    Component  52:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    249
+        w:    14
+        h:    18
+    Component  53:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    231
+        w:    14
+        h:    18
+    Component  54:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    213
+        w:    14
+        h:    18
+    Component  55:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    195
+        w:    14
+        h:    18
+    Component  56:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    177
+        w:    14
+        h:    18
+    Component  57:
+        Type: 5 (Unknown)
+    Component  58:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+Page   1:
+    Component   1:
+        Type: 51 (Timer)
+        tim:  50
+        en:   1
+    Component   2:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+    Component   3:
+        Type: 112 (Picture)
+        x:    407
+        y:    11
+        w:    23
+        h:    23
+        pic:  54
+    Component   4:
+        Type:     116 (Text)
+        x:        27
+        y:        151
+        w:        183
+        h:        56
+        txt_maxl: 7
+        txt:      "0℃"
+    Component   5:
+        Type:     116 (Text)
+        x:        27
+        y:        208
+        w:        163
+        h:        28
+        txt_maxl: 20
+        txt:      "0℃ ~ 0℃"
+    Component   6:
+        Type:     116 (Text)
+        x:        344
+        y:        31
+        w:        19
+        h:        58
+        txt_maxl: 10
+        txt:      ":"
+    Component   7:
+        Type:     116 (Text)
+        x:        330
+        y:        94
+        w:        98
+        h:        24
+        txt_maxl: 15
+        txt:      "0/0   "
+    Component   8:
+        Type:     116 (Text)
+        x:        319
+        y:        190
+        w:        109
+        h:        43
+        txt_maxl: 7
+        txt:      "℃"
+    Component   9:
+        Type: 112 (Picture)
+        x:    20
+        y:    299
+        w:    187
+        h:    4
+        pic:  42
+    Component  10:
+        Type: 112 (Picture)
+        x:    241
+        y:    299
+        w:    187
+        h:    4
+        pic:  44
+    Component  11:
+        Type: 54 (Number)
+        x:    280
+        y:    34
+        w:    65
+        h:    56
+        val:  0
+    Component  12:
+        Type: 54 (Number)
+        x:    367
+        y:    34
+        w:    66
+        h:    56
+        val:  0
+    Component  13:
+        Type: 51 (Timer)
+        tim:  50
+        en:   0
+    Component  14:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  15:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  16:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  17:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  18:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 200
+        txt:
+    Component  19:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 20
+        txt:
+    Component  20:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  21:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 30
+        txt:
+    Component  22:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 30
+        txt:
+    Component  23:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 30
+        txt:      "0"
+    Component  24:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 30
+        txt:      "0"
+    Component  25:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 5
+        txt:      "0"
+    Component  26:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    0
+        w:    14
+        h:    18
+    Component  27:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 5
+        txt:      "0"
+    Component  28:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 5
+        txt:      "0"
+    Component  29:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 7
+        txt:
+    Component  30:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 25
+        txt:
+    Component  31:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 5
+        txt:
+    Component  32:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    18
+        w:    14
+        h:    18
+    Component  33:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 3
+        txt:
+    Component  34:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 2
+        txt:
+    Component  35:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    72
+        w:    14
+        h:    17
+    Component  36:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 30
+        txt:
+    Component  37:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 3
+        txt:
+    Component  38:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 512
+        txt:
+    Component  39:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 100
+        txt:
+    Component  40:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 1
+        txt:
+    Component  41:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 5
+        txt:
+    Component  42:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 5
+        txt:
+    Component  43:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 3
+        txt:      "℃"
+    Component  44:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    54
+        w:    14
+        h:    18
+    Component  45:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 4
+        txt:
+    Component  46:
+        Type: 112 (Picture)
+        x:    460
+        y:    157
+        w:    4
+        h:    131
+        pic:  80
+    Component  47:
+        Type: 112 (Picture)
+        x:    460
+        y:    12
+        w:    4
+        h:    131
+        pic:  80
+    Component  48:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    36
+        w:    14
+        h:    18
+    Component  49:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    303
+        w:    13
+        h:    17
+    Component  50:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    285
+        w:    14
+        h:    18
+    Component  51:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    267
+        w:    14
+        h:    18
+    Component  52:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    249
+        w:    14
+        h:    18
+    Component  53:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    231
+        w:    14
+        h:    18
+    Component  54:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    213
+        w:    14
+        h:    18
+    Component  55:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    195
+        w:    14
+        h:    18
+    Component  56:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    177
+        w:    14
+        h:    18
+    Component  57:
+        Type: 5 (Unknown)
+    Component  58:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+Page   2:
+    Component   1:
+        Type: 51 (Timer)
+        tim:  50
+        en:   1
+    Component   2:
+        Type: 112 (Picture)
+        x:    407
+        y:    11
+        w:    23
+        h:    23
+        pic:  54
+    Component   3:
+        Type:     116 (Text)
+        x:        138
+        y:        11
+        w:        152
+        h:        22
+        txt_maxl: 50
+        txt:      "00:00      0/0   "
+    Component   4:
+        Type: 112 (Picture)
+        x:    19
+        y:    227
+        w:    409
+        h:    67
+        pic:  74
+    Component   5:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+    Component   6:
+        Type: 51 (Timer)
+        tim:  50
+        en:   0
+    Component   7:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component   8:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component   9:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  10:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  11:
+        Type: 112 (Picture)
+        x:    105
+        y:    251
+        w:    19
+        h:    19
+        pic:  76
+    Component  12:
+        Type: 112 (Picture)
+        x:    263
+        y:    249
+        w:    19
+        h:    19
+        pic:  75
+    Component  13:
+        Type: 112 (Picture)
+        x:    20
+        y:    299
+        w:    187
+        h:    4
+        pic:  42
+    Component  14:
+        Type: 112 (Picture)
+        x:    241
+        y:    299
+        w:    187
+        h:    4
+        pic:  44
+    Component  15:
+        Type:   1 (Slider)
+        x:      74
+        y:      104
+        w:      301
+        h:      36
+        minval: 6
+        maxval: 100
+        val:    92
+    Component  16:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    18
+        w:    14
+        h:    18
+    Component  17:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    0
+        w:    14
+        h:    18
+    Component  18:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    54
+        w:    14
+        h:    18
+    Component  19:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    72
+        w:    14
+        h:    18
+    Component  20:
+        Type:     116 (Text)
+        x:        295
+        y:        173
+        w:        100
+        h:        30
+        txt_maxl: 10
+        txt:      "2 Minute"
+    Component  21:
+        Type: 109 (Hotspot)
+        x:    20
+        y:    155
+        w:    409
+        h:    64
+    Component  22:
+        Type: 112 (Picture)
+        x:    460
+        y:    157
+        w:    4
+        h:    131
+        pic:  80
+    Component  23:
+        Type: 112 (Picture)
+        x:    460
+        y:    12
+        w:    4
+        h:    131
+        pic:  80
+    Component  24:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    36
+        w:    14
+        h:    18
+    Component  25:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    303
+        w:    13
+        h:    17
+    Component  26:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    285
+        w:    14
+        h:    18
+    Component  27:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    267
+        w:    14
+        h:    18
+    Component  28:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    249
+        w:    14
+        h:    18
+    Component  29:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    231
+        w:    14
+        h:    18
+    Component  30:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    213
+        w:    14
+        h:    18
+    Component  31:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    195
+        w:    14
+        h:    18
+    Component  32:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    177
+        w:    14
+        h:    18
+    Component  33:
+        Type: 5 (Unknown)
+    Component  34:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+Page   3:
+    Component   1:
+        Type: 51 (Timer)
+        tim:  50
+        en:   1
+    Component   2:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+    Component   3:
+        Type:     52 (Variable)
+        sta:      0
+        val:      28
+    Component   4:
+        Type: 112 (Picture)
+        x:    20
+        y:    299
+        w:    187
+        h:    4
+        pic:  42
+    Component   5:
+        Type: 112 (Picture)
+        x:    241
+        y:    299
+        w:    187
+        h:    4
+        pic:  44
+    Component   6:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+    Component   7:
+        Type: 112 (Picture)
+        x:    45
+        y:    50
+        w:    363
+        h:    172
+        pic:  164
+    Component   8:
+        Type:     116 (Text)
+        x:        39
+        y:        243
+        w:        370
+        h:        30
+        txt_maxl: 60
+        txt:      "Please set the thermostats in eWeLink app"
+    Component   9:
+        Type: 51 (Timer)
+        tim:  50
+        en:   0
+    Component  10:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  11:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  12:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  13:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  14:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    18
+        w:    14
+        h:    18
+    Component  15:
+        Type: 109 (Hotspot)
+        x:    0
+        y:    0
+        w:    468
+        h:    320
+    Component  16:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    0
+        w:    14
+        h:    18
+    Component  17:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    54
+        w:    14
+        h:    18
+    Component  18:
+        Type: 51 (Timer)
+        tim:  1500
+        en:   0
+    Component  19:
+        Type: 112 (Picture)
+        x:    460
+        y:    157
+        w:    4
+        h:    131
+        pic:  80
+    Component  20:
+        Type: 112 (Picture)
+        x:    460
+        y:    12
+        w:    4
+        h:    131
+        pic:  80
+    Component  21:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    36
+        w:    14
+        h:    18
+    Component  22:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    303
+        w:    13
+        h:    17
+    Component  23:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    285
+        w:    14
+        h:    18
+    Component  24:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    267
+        w:    14
+        h:    18
+    Component  25:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    249
+        w:    14
+        h:    18
+    Component  26:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    231
+        w:    14
+        h:    18
+    Component  27:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    213
+        w:    14
+        h:    18
+    Component  28:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    195
+        w:    14
+        h:    18
+    Component  29:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    177
+        w:    14
+        h:    18
+Page   4:
+    Component   1:
+        Type: 51 (Timer)
+        tim:  50
+        en:   1
+    Component   2:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    72
+        w:    14
+        h:    18
+    Component   3:
+        Type:     116 (Text)
+        x:        138
+        y:        11
+        w:        152
+        h:        22
+        txt_maxl: 50
+        txt:      "00:00      0/0   "
+    Component   4:
+        Type: 112 (Picture)
+        x:    407
+        y:    11
+        w:    23
+        h:    23
+        pic:  54
+    Component   5:
+        Type: 112 (Picture)
+        x:    241
+        y:    299
+        w:    187
+        h:    4
+        pic:  44
+    Component   6:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+    Component   7:
+        Type: 112 (Picture)
+        x:    45
+        y:    50
+        w:    363
+        h:    172
+        pic:  163
+    Component   8:
+        Type:     116 (Text)
+        x:        39
+        y:        243
+        w:        370
+        h:        30
+        txt_maxl: 60
+        txt:      "Please create widgets in eWeLink app"
+    Component   9:
+        Type: 51 (Timer)
+        tim:  50
+        en:   0
+    Component  10:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  11:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  12:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  13:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  14:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    18
+        w:    14
+        h:    18
+    Component  15:
+        Type: 109 (Hotspot)
+        x:    0
+        y:    0
+        w:    468
+        h:    320
+    Component  16:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    0
+        w:    14
+        h:    18
+    Component  17:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    54
+        w:    14
+        h:    18
+    Component  18:
+        Type: 51 (Timer)
+        tim:  1500
+        en:   0
+    Component  19:
+        Type: 112 (Picture)
+        x:    460
+        y:    157
+        w:    4
+        h:    131
+        pic:  80
+    Component  20:
+        Type: 112 (Picture)
+        x:    460
+        y:    12
+        w:    4
+        h:    131
+        pic:  80
+    Component  21:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    36
+        w:    14
+        h:    18
+    Component  22:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    303
+        w:    13
+        h:    17
+    Component  23:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    285
+        w:    14
+        h:    18
+    Component  24:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    267
+        w:    14
+        h:    18
+    Component  25:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    249
+        w:    14
+        h:    18
+    Component  26:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    231
+        w:    14
+        h:    18
+    Component  27:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    213
+        w:    14
+        h:    18
+    Component  28:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    195
+        w:    14
+        h:    18
+    Component  29:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    177
+        w:    14
+        h:    18
+Page   5:
+    Component   1:
+        Type:     116 (Text)
+        x:        227
+        y:        108
+        w:        202
+        h:        73
+        txt_maxl: 20
+        txt:      "      OUTLET 2"
+    Component   2:
+        Type:     116 (Text)
+        x:        227
+        y:        186
+        w:        202
+        h:        73
+        txt_maxl: 20
+        txt:      "      OUTLET 4"
+    Component   3:
+        Type: 51 (Timer)
+        tim:  50
+        en:   1
+    Component   4:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+    Component   5:
+        Type:     116 (Text)
+        x:        138
+        y:        11
+        w:        152
+        h:        22
+        txt_maxl: 50
+        txt:      "00:00      0/0   "
+    Component   6:
+        Type: 112 (Picture)
+        x:    407
+        y:    11
+        w:    23
+        h:    23
+        pic:  54
+    Component   7:
+        Type: 112 (Picture)
+        x:    241
+        y:    299
+        w:    187
+        h:    4
+        pic:  44
+    Component   8:
+        Type: 112 (Picture)
+        x:    20
+        y:    299
+        w:    187
+        h:    4
+        pic:  42
+    Component   9:
+        Type:     116 (Text)
+        x:        167
+        y:        45
+        w:        112
+        h:        30
+        txt_maxl: 24
+        txt:      "deviceName"
+    Component  10:
+        Type: 112 (Picture)
+        x:    41
+        y:    57
+        w:    22
+        h:    19
+        pic:  155
+    Component  11:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    18
+        w:    14
+        h:    18
+    Component  12:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    0
+        w:    14
+        h:    18
+    Component  13:
+        Type: 51 (Timer)
+        tim:  50
+        en:   0
+    Component  14:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  15:
+        Type: 109 (Hotspot)
+        x:    0
+        y:    0
+        w:    468
+        h:    320
+    Component  16:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    0
+        w:    14
+        h:    18
+    Component  17:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    54
+        w:    14
+        h:    18
+    Component  18:
+        Type: 51 (Timer)
+        tim:  1500
+        en:   0
+    Component  19:
+        Type: 112 (Picture)
+        x:    460
+        y:    157
+        w:    4
+        h:    131
+        pic:  80
+    Component  20:
+        Type: 112 (Picture)
+        x:    460
+        y:    12
+        w:    4
+        h:    131
+        pic:  80
+    Component  21:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    36
+        w:    14
+        h:    18
+    Component  22:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    303
+        w:    13
+        h:    17
+    Component  23:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    285
+        w:    14
+        h:    18
+    Component  24:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    267
+        w:    14
+        h:    18
+    Component  25:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    249
+        w:    14
+        h:    18
+    Component  26:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    231
+        w:    14
+        h:    18
+    Component  27:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    213
+        w:    14
+        h:    18
+    Component  28:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    195
+        w:    14
+        h:    18
+    Component  29:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    177
+        w:    14
+        h:    18
+Page   6:
+    Component   1:
+        Type: 112 (Picture)
+        x:    193
+        y:    83
+        w:    230
+        h:    30
+        pic:  265
+    Component   2:
+        Type:     116 (Text)
+        x:        366
+        y:        50
+        w:        53
+        h:        24
+        txt_maxl: 3
+        txt:
+    Component   3:
+        Type: 51 (Timer)
+        tim:  50
+        en:   1
+    Component   4:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+    Component   5:
+        Type:     116 (Text)
+        x:        138
+        y:        11
+        w:        152
+        h:        22
+        txt_maxl: 50
+        txt:      "00:00      0/0   "
+    Component   6:
+        Type: 112 (Picture)
+        x:    407
+        y:    11
+        w:    23
+        h:    23
+        pic:  54
+    Component   7:
+        Type: 112 (Picture)
+        x:    241
+        y:    299
+        w:    187
+        h:    4
+        pic:  44
+    Component   8:
+        Type: 112 (Picture)
+        x:    20
+        y:    299
+        w:    187
+        h:    4
+        pic:  42
+    Component   9:
+        Type: 112 (Picture)
+        x:    63
+        y:    92
+        w:    117
+        h:    117
+        pic:  158
+    Component  10:
+        Type:     116 (Text)
+        x:        168
+        y:        42
+        w:        112
+        h:        30
+        txt_maxl: 24
+        txt:      "deviceName"
+    Component  11:
+        Type: 51 (Timer)
+        tim:  50
+        en:   0
+    Component  12:
+        Type:     116 (Text)
+        x:        94
+        y:        122
+        w:        51
+        h:        49
+        txt_maxl: 3
+        txt:      "●"
+    Component  13:
+        Type:   1 (Slider)
+        x:      78
+        y:      227
+        w:      300
+        h:      54
+        minval: 0
+        maxval: 100
+        val:    50
+    Component  14:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   0
+    Component  15:
+        Type: 112 (Picture)
+        x:    33
+        y:    47
+        w:    22
+        h:    19
+        pic:  155
+    Component  16:
+        Type:     52 (Variable)
+        sta:      1
+    Component  17:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    54
+        w:    14
+        h:    18
+    Component  18:
+        Type: 51 (Timer)
+        tim:  1500
+        en:   0
+    Component  19:
+        Type: 112 (Picture)
+        x:    460
+        y:    157
+        w:    4
+        h:    131
+        pic:  80
+    Component  20:
+        Type: 112 (Picture)
+        x:    460
+        y:    12
+        w:    4
+        h:    131
+        pic:  80
+    Component  21:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    36
+        w:    14
+        h:    18
+    Component  22:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    303
+        w:    13
+        h:    17
+    Component  23:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    285
+        w:    14
+        h:    18
+    Component  24:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    267
+        w:    14
+        h:    18
+    Component  25:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    249
+        w:    14
+        h:    18
+    Component  26:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    231
+        w:    14
+        h:    18
+    Component  27:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    213
+        w:    14
+        h:    18
+    Component  28:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    195
+        w:    14
+        h:    18
+    Component  29:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    177
+        w:    14
+        h:    18
+Page   7:
+    Component   1:
+        Type: 51 (Timer)
+        tim:  50
+        en:   1
+    Component   2:
+        Type:     116 (Text)
+        x:        138
+        y:        11
+        w:        152
+        h:        22
+        txt_maxl: 50
+        txt:      "00:00      0/0   "
+    Component   3:
+        Type: 112 (Picture)
+        x:    407
+        y:    11
+        w:    23
+        h:    23
+        pic:  54
+    Component   4:
+        Type: 112 (Picture)
+        x:    20
+        y:    299
+        w:    187
+        h:    4
+        pic:  42
+    Component   5:
+        Type: 112 (Picture)
+        x:    241
+        y:    299
+        w:    187
+        h:    4
+        pic:  44
+    Component   6:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+    Component   7:
+        Type: 112 (Picture)
+        x:    45
+        y:    50
+        w:    363
+        h:    172
+        pic:  163
+    Component   8:
+        Type:     116 (Text)
+        x:        39
+        y:        243
+        w:        370
+        h:        30
+        txt_maxl: 60
+        txt:      "Please create widgets in eWeLink app"
+    Component   9:
+        Type: 51 (Timer)
+        tim:  50
+        en:   0
+    Component  10:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  11:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  12:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  13:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  14:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    18
+        w:    14
+        h:    18
+    Component  15:
+        Type: 109 (Hotspot)
+        x:    0
+        y:    0
+        w:    468
+        h:    320
+    Component  16:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    0
+        w:    14
+        h:    18
+    Component  17:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    54
+        w:    14
+        h:    18
+    Component  18:
+        Type: 51 (Timer)
+        tim:  1500
+        en:   0
+    Component  19:
+        Type: 112 (Picture)
+        x:    460
+        y:    157
+        w:    4
+        h:    131
+        pic:  80
+    Component  20:
+        Type: 112 (Picture)
+        x:    460
+        y:    12
+        w:    4
+        h:    131
+        pic:  80
+    Component  21:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    36
+        w:    14
+        h:    18
+    Component  22:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    303
+        w:    13
+        h:    17
+    Component  23:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    285
+        w:    14
+        h:    18
+    Component  24:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    267
+        w:    14
+        h:    18
+    Component  25:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    249
+        w:    14
+        h:    18
+    Component  26:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    231
+        w:    14
+        h:    18
+    Component  27:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    213
+        w:    14
+        h:    18
+    Component  28:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    195
+        w:    14
+        h:    18
+    Component  29:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    177
+        w:    14
+        h:    18
+Page   8:
+    Component   1:
+        Type: 51 (Timer)
+        tim:  50
+        en:   1
+    Component   2:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+    Component   3:
+        Type: 112 (Picture)
+        x:    144
+        y:    85
+        w:    67
+        h:    67
+        pic:  116
+    Component   4:
+        Type: 112 (Picture)
+        x:    211
+        y:    85
+        w:    67
+        h:    67
+        pic:  124
+    Component   5:
+        Type: 112 (Picture)
+        x:    144
+        y:    152
+        w:    67
+        h:    67
+        pic:  134
+    Component   6:
+        Type: 112 (Picture)
+        x:    211
+        y:    152
+        w:    67
+        h:    67
+        pic:  134
+    Component   7:
+        Type: 51 (Timer)
+        tim:  50
+        en:   0
+    Component   8:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component   9:
+        Type: 112 (Picture)
+        x:    20
+        y:    299
+        w:    187
+        h:    4
+        pic:  42
+    Component  10:
+        Type: 112 (Picture)
+        x:    241
+        y:    299
+        w:    187
+        h:    4
+        pic:  44
+    Component  11:
+        Type: 54 (Number)
+        x:    280
+        y:    34
+        w:    65
+        h:    56
+        val:  0
+    Component  12:
+        Type: 54 (Number)
+        x:    367
+        y:    34
+        w:    66
+        h:    56
+        val:  0
+    Component  13:
+        Type: 51 (Timer)
+        tim:  50
+        en:   0
+    Component  14:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  15:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  16:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  17:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  18:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 200
+        txt:      "{"ATCEnable":0,"ATCMode":1,"ATCExpect1":28}"
+    Component  19:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 20
+        txt:
+    Component  20:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  21:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 30
+        txt:
+    Component  22:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 30
+        txt:      "00"
+    Component  23:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 30
+        txt:      "0"
+    Component  24:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 30
+        txt:      "0"
+    Component  25:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 5
+        txt:      "0"
+    Component  26:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    0
+        w:    14
+        h:    18
+    Component  27:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 5
+        txt:      "0"
+    Component  28:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 5
+        txt:      "0"
+    Component  29:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 7
+        txt:
+    Component  30:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 25
+        txt:
+    Component  31:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 5
+        txt:
+    Component  32:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    18
+        w:    14
+        h:    18
+    Component  33:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 3
+        txt:
+    Component  34:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 2
+        txt:
+    Component  35:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    72
+        w:    14
+        h:    17
+    Component  36:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 30
+        txt:
+    Component  37:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 3
+        txt:
+    Component  38:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 512
+        txt:
+    Component  39:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 100
+        txt:
+    Component  40:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 1
+        txt:
+    Component  41:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 5
+        txt:
+    Component  42:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 5
+        txt:
+    Component  43:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 3
+        txt:      "℃"
+    Component  44:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    54
+        w:    14
+        h:    18
+    Component  45:
+        Type:     52 (Variable)
+        sta:      1
+        txt_maxl: 4
+        txt:
+    Component  46:
+        Type: 112 (Picture)
+        x:    460
+        y:    157
+        w:    4
+        h:    131
+        pic:  80
+    Component  47:
+        Type: 112 (Picture)
+        x:    460
+        y:    12
+        w:    4
+        h:    131
+        pic:  80
+    Component  48:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    36
+        w:    14
+        h:    18
+    Component  49:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    303
+        w:    13
+        h:    17
+    Component  50:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    285
+        w:    14
+        h:    18
+    Component  51:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    267
+        w:    14
+        h:    18
+    Component  52:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    249
+        w:    14
+        h:    18
+    Component  53:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    231
+        w:    14
+        h:    18
+    Component  54:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    213
+        w:    14
+        h:    18
+    Component  55:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    195
+        w:    14
+        h:    18
+    Component  56:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    177
+        w:    14
+        h:    18
+    Component  57:
+        Type: 5 (Unknown)
+    Component  58:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+Page   9:
+    Component   1:
+        Type: 51 (Timer)
+        tim:  50
+        en:   1
+    Component   2:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+    Component   3:
+        Type:     52 (Variable)
+        sta:      0
+        val:      28
+    Component   4:
+        Type: 112 (Picture)
+        x:    20
+        y:    299
+        w:    187
+        h:    4
+        pic:  42
+    Component   5:
+        Type: 112 (Picture)
+        x:    241
+        y:    299
+        w:    187
+        h:    4
+        pic:  44
+    Component   6:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+    Component   7:
+        Type: 112 (Picture)
+        x:    45
+        y:    50
+        w:    363
+        h:    172
+        pic:  164
+    Component   8:
+        Type:     116 (Text)
+        x:        39
+        y:        243
+        w:        370
+        h:        30
+        txt_maxl: 60
+        txt:      "Please set the thermostats in eWeLink app"
+    Component   9:
+        Type: 51 (Timer)
+        tim:  50
+        en:   0
+    Component  10:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  11:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  12:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  13:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  14:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    18
+        w:    14
+        h:    18
+    Component  15:
+        Type: 109 (Hotspot)
+        x:    0
+        y:    0
+        w:    468
+        h:    320
+    Component  16:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    0
+        w:    14
+        h:    18
+    Component  17:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    54
+        w:    14
+        h:    18
+    Component  18:
+        Type: 51 (Timer)
+        tim:  1500
+        en:   0
+    Component  19:
+        Type: 112 (Picture)
+        x:    460
+        y:    157
+        w:    4
+        h:    131
+        pic:  80
+    Component  20:
+        Type: 112 (Picture)
+        x:    460
+        y:    12
+        w:    4
+        h:    131
+        pic:  80
+    Component  21:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    36
+        w:    14
+        h:    18
+    Component  22:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    303
+        w:    13
+        h:    17
+    Component  23:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    285
+        w:    14
+        h:    18
+    Component  24:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    267
+        w:    14
+        h:    18
+    Component  25:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    249
+        w:    14
+        h:    18
+    Component  26:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    231
+        w:    14
+        h:    18
+    Component  27:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    213
+        w:    14
+        h:    18
+    Component  28:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    195
+        w:    14
+        h:    18
+    Component  29:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    177
+        w:    14
+        h:    18
+Page  10:
+    Component   1:
+        Type: 51 (Timer)
+        tim:  50
+        en:   1
+    Component   2:
+        Type: 112 (Picture)
+        x:    407
+        y:    11
+        w:    23
+        h:    23
+        pic:  54
+    Component   3:
+        Type:     116 (Text)
+        x:        138
+        y:        11
+        w:        152
+        h:        22
+        txt_maxl: 50
+        txt:      "00:00      0/0   "
+    Component   4:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+    Component   5:
+        Type: 51 (Timer)
+        tim:  50
+        en:   0
+    Component   6:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component   7:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component   8:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component   9:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  10:
+        Type: 112 (Picture)
+        x:    20
+        y:    299
+        w:    187
+        h:    4
+        pic:  42
+    Component  11:
+        Type: 112 (Picture)
+        x:    241
+        y:    299
+        w:    187
+        h:    4
+        pic:  44
+    Component  12:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    18
+        w:    14
+        h:    18
+    Component  13:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    0
+        w:    14
+        h:    18
+    Component  14:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    54
+        w:    14
+        h:    18
+    Component  15:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    72
+        w:    14
+        h:    18
+    Component  16:
+        Type:     116 (Text)
+        x:        20
+        y:        108
+        w:        202
+        h:        73
+        txt_maxl: 20
+        txt:      "     1 Minute"
+    Component  17:
+        Type:     116 (Text)
+        x:        227
+        y:        108
+        w:        202
+        h:        73
+        txt_maxl: 20
+        txt:      "     2 Minutes"
+    Component  18:
+        Type:     116 (Text)
+        x:        20
+        y:        186
+        w:        202
+        h:        73
+        txt_maxl: 20
+        txt:      "     5 Minutes"
+    Component  19:
+        Type:     116 (Text)
+        x:        227
+        y:        186
+        w:        202
+        h:        73
+        txt_maxl: 20
+        txt:      "     10 Minutes"
+    Component  20:
+        Type: 112 (Picture)
+        x:    181
+        y:    134
+        w:    19
+        h:    19
+        pic:  76
+    Component  21:
+        Type: 112 (Picture)
+        x:    368
+        y:    131
+        w:    19
+        h:    19
+        pic:  75
+    Component  22:
+        Type: 112 (Picture)
+        x:    178
+        y:    216
+        w:    19
+        h:    19
+        pic:  76
+    Component  23:
+        Type: 112 (Picture)
+        x:    372
+        y:    219
+        w:    19
+        h:    19
+        pic:  76
+    Component  24:
+        Type: 112 (Picture)
+        x:    41
+        y:    57
+        w:    22
+        h:    19
+        pic:  155
+    Component  25:
+        Type: 5 (Unknown)
+    Component  26:
+        Type: 109 (Hotspot)
+        x:    14
+        y:    38
+        w:    78
+        h:    51
+    Component  27:
+        Type: 112 (Picture)
+        x:    460
+        y:    157
+        w:    4
+        h:    131
+        pic:  80
+    Component  28:
+        Type: 112 (Picture)
+        x:    460
+        y:    12
+        w:    4
+        h:    131
+        pic:  80
+    Component  29:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    36
+        w:    14
+        h:    18
+    Component  30:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    303
+        w:    13
+        h:    17
+    Component  31:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    285
+        w:    14
+        h:    18
+    Component  32:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    267
+        w:    14
+        h:    18
+    Component  33:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    249
+        w:    14
+        h:    18
+    Component  34:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    231
+        w:    14
+        h:    18
+    Component  35:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    213
+        w:    14
+        h:    18
+    Component  36:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    195
+        w:    14
+        h:    18
+    Component  37:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    177
+        w:    14
+        h:    18
+    Component  38:
+        Type: 5 (Unknown)
+    Component  39:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+Page  11:
+    Component   1:
+        Type: 112 (Picture)
+        x:    191
+        y:    82
+        w:    230
+        h:    30
+        pic:  265
+    Component   2:
+        Type:     116 (Text)
+        x:        366
+        y:        50
+        w:        53
+        h:        24
+        txt_maxl: 3
+        txt:
+    Component   3:
+        Type: 51 (Timer)
+        tim:  50
+        en:   1
+    Component   4:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+    Component   5:
+        Type:     116 (Text)
+        x:        138
+        y:        11
+        w:        152
+        h:        22
+        txt_maxl: 50
+        txt:      "00:00      0/0   "
+    Component   6:
+        Type: 112 (Picture)
+        x:    407
+        y:    11
+        w:    23
+        h:    23
+        pic:  54
+    Component   7:
+        Type: 112 (Picture)
+        x:    241
+        y:    299
+        w:    187
+        h:    4
+        pic:  44
+    Component   8:
+        Type: 112 (Picture)
+        x:    20
+        y:    299
+        w:    187
+        h:    4
+        pic:  42
+    Component   9:
+        Type:     116 (Text)
+        x:        168
+        y:        42
+        w:        112
+        h:        30
+        txt_maxl: 24
+        txt:      "deviceName"
+    Component  10:
+        Type:   1 (Slider)
+        x:      78
+        y:      170
+        w:      300
+        h:      54
+        minval: 0
+        maxval: 255
+        val:    128
+    Component  11:
+        Type:   1 (Slider)
+        x:      78
+        y:      227
+        w:      300
+        h:      54
+        minval: 0
+        maxval: 100
+        val:    50
+    Component  12:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   0
+    Component  13:
+        Type: 112 (Picture)
+        x:    33
+        y:    47
+        w:    22
+        h:    19
+        pic:  155
+    Component  14:
+        Type:     52 (Variable)
+        sta:      1
+    Component  15:
+        Type: 109 (Hotspot)
+        x:    0
+        y:    0
+        w:    468
+        h:    320
+    Component  16:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    0
+        w:    14
+        h:    18
+    Component  17:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    54
+        w:    14
+        h:    18
+    Component  18:
+        Type: 51 (Timer)
+        tim:  1500
+        en:   0
+    Component  19:
+        Type: 112 (Picture)
+        x:    460
+        y:    157
+        w:    4
+        h:    131
+        pic:  80
+    Component  20:
+        Type: 112 (Picture)
+        x:    460
+        y:    12
+        w:    4
+        h:    131
+        pic:  80
+    Component  21:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    36
+        w:    14
+        h:    18
+    Component  22:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    303
+        w:    13
+        h:    17
+    Component  23:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    285
+        w:    14
+        h:    18
+    Component  24:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    267
+        w:    14
+        h:    18
+    Component  25:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    249
+        w:    14
+        h:    18
+    Component  26:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    231
+        w:    14
+        h:    18
+    Component  27:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    213
+        w:    14
+        h:    18
+    Component  28:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    195
+        w:    14
+        h:    18
+    Component  29:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    177
+        w:    14
+        h:    18
+Page  12:
+    Component   1:
+        Type: 51 (Timer)
+        tim:  50
+        en:   1
+    Component   2:
+        Type:     116 (Text)
+        x:        57
+        y:        203
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component   3:
+        Type:     116 (Text)
+        x:        52
+        y:        196
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component   4:
+        Type:     116 (Text)
+        x:        46
+        y:        185
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component   5:
+        Type:     116 (Text)
+        x:        41
+        y:        173
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component   6:
+        Type:     116 (Text)
+        x:        39
+        y:        160
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component   7:
+        Type:     116 (Text)
+        x:        40
+        y:        148
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component   8:
+        Type:     116 (Text)
+        x:        42
+        y:        136
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component   9:
+        Type:     116 (Text)
+        x:        46
+        y:        123
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  10:
+        Type:     116 (Text)
+        x:        53
+        y:        111
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  11:
+        Type:     116 (Text)
+        x:        62
+        y:        102
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  12:
+        Type:     116 (Text)
+        x:        71
+        y:        94
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  13:
+        Type:     116 (Text)
+        x:        81
+        y:        88
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  14:
+        Type:     116 (Text)
+        x:        96
+        y:        83
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  15:
+        Type:     116 (Text)
+        x:        104
+        y:        81
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  16:
+        Type:     116 (Text)
+        x:        112
+        y:        81
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  17:
+        Type:     116 (Text)
+        x:        122
+        y:        81
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  18:
+        Type:     116 (Text)
+        x:        131
+        y:        83
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  19:
+        Type:     116 (Text)
+        x:        141
+        y:        88
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  20:
+        Type:     116 (Text)
+        x:        152
+        y:        94
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  21:
+        Type:     116 (Text)
+        x:        162
+        y:        102
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  22:
+        Type:     116 (Text)
+        x:        172
+        y:        111
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  23:
+        Type:     116 (Text)
+        x:        179
+        y:        123
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  24:
+        Type:     116 (Text)
+        x:        184
+        y:        136
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  25:
+        Type:     116 (Text)
+        x:        186
+        y:        148
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  26:
+        Type:     116 (Text)
+        x:        186
+        y:        160
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  27:
+        Type:     116 (Text)
+        x:        184
+        y:        173
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  28:
+        Type:     116 (Text)
+        x:        179
+        y:        185
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  29:
+        Type:     116 (Text)
+        x:        174
+        y:        196
+        w:        24
+        h:        24
+        txt_maxl: 3
+        txt:      "●"
+    Component  30:
+        Type:     116 (Text)
+        x:        168
+        y:        203
+        w:        24
+        h:        24
+        txt_maxl: 3
+Page  13:
+    Component   1:
+        Type:   1 (Slider)
+        x:      28
+        y:      98
+        w:      296
+        h:      105
+        minval: 1
+        maxval: 100
+        val:    100
+    Component   2:
+        Type: 112 (Picture)
+        x:    324
+        y:    98
+        w:    105
+        h:    105
+        pic:  312
+    Component   3:
+        Type: 51 (Timer)
+        tim:  50
+        en:   1
+    Component   4:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+    Component   5:
+        Type:     116 (Text)
+        x:        138
+        y:        11
+        w:        152
+        h:        22
+        txt_maxl: 50
+        txt:      "00:00      0/0   "
+    Component   6:
+        Type: 112 (Picture)
+        x:    407
+        y:    11
+        w:    23
+        h:    23
+        pic:  54
+    Component   7:
+        Type: 112 (Picture)
+        x:    241
+        y:    299
+        w:    187
+        h:    4
+        pic:  44
+    Component   8:
+        Type: 112 (Picture)
+        x:    20
+        y:    299
+        w:    187
+        h:    4
+        pic:  42
+    Component   9:
+        Type:     116 (Text)
+        x:        164
+        y:        46
+        w:        112
+        h:        30
+        txt_maxl: 24
+        txt:      "deviceName"
+    Component  10:
+        Type: 112 (Picture)
+        x:    41
+        y:    62
+        w:    22
+        h:    19
+        pic:  155
+    Component  11:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    18
+        w:    14
+        h:    18
+    Component  12:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    0
+        w:    14
+        h:    18
+    Component  13:
+        Type: 51 (Timer)
+        tim:  50
+        en:   0
+    Component  14:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  15:
+        Type: 109 (Hotspot)
+        x:    0
+        y:    0
+        w:    468
+        h:    320
+    Component  16:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    0
+        w:    14
+        h:    18
+    Component  17:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    54
+        w:    14
+        h:    18
+    Component  18:
+        Type: 51 (Timer)
+        tim:  1500
+        en:   0
+    Component  19:
+        Type: 112 (Picture)
+        x:    460
+        y:    157
+        w:    4
+        h:    131
+        pic:  80
+    Component  20:
+        Type: 112 (Picture)
+        x:    460
+        y:    12
+        w:    4
+        h:    131
+        pic:  80
+    Component  21:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    36
+        w:    14
+        h:    18
+    Component  22:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    303
+        w:    13
+        h:    17
+    Component  23:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    285
+        w:    14
+        h:    18
+    Component  24:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    267
+        w:    14
+        h:    18
+    Component  25:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    249
+        w:    14
+        h:    18
+    Component  26:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    231
+        w:    14
+        h:    18
+    Component  27:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    213
+        w:    14
+        h:    18
+    Component  28:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    195
+        w:    14
+        h:    18
+    Component  29:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    177
+        w:    14
+        h:    18
+Page  14:
+    Component   1:
+        Type: 51 (Timer)
+        tim:  50
+        en:   1
+    Component   2:
+        Type: 51 (Timer)
+        tim:  1000
+        en:   1
+    Component   3:
+        Type:     116 (Text)
+        x:        138
+        y:        11
+        w:        152
+        h:        22
+        txt_maxl: 50
+        txt:      "00:00      0/0   "
+    Component   4:
+        Type: 112 (Picture)
+        x:    407
+        y:    11
+        w:    23
+        h:    23
+        pic:  54
+    Component   5:
+        Type: 112 (Picture)
+        x:    241
+        y:    299
+        w:    187
+        h:    4
+        pic:  44
+    Component   6:
+        Type: 112 (Picture)
+        x:    20
+        y:    299
+        w:    187
+        h:    4
+        pic:  42
+    Component   7:
+        Type:     116 (Text)
+        x:        167
+        y:        35
+        w:        112
+        h:        30
+        txt_maxl: 24
+        txt:      "deviceName"
+    Component   8:
+        Type: 112 (Picture)
+        x:    41
+        y:    57
+        w:    22
+        h:    19
+        pic:  155
+    Component   9:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    18
+        w:    14
+        h:    18
+    Component  10:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    0
+        w:    14
+        h:    18
+    Component  11:
+        Type: 51 (Timer)
+        tim:  50
+        en:   0
+    Component  12:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  13:
+        Type:     52 (Variable)
+        sta:      0
+        val:      0
+    Component  14:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    18
+        w:    14
+        h:    18
+    Component  15:
+        Type: 109 (Hotspot)
+        x:    0
+        y:    0
+        w:    468
+        h:    320
+    Component  16:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    0
+        w:    14
+        h:    18
+    Component  17:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    54
+        w:    14
+        h:    18
+    Component  18:
+        Type: 51 (Timer)
+        tim:  1500
+        en:   0
+    Component  19:
+        Type: 112 (Picture)
+        x:    460
+        y:    157
+        w:    4
+        h:    131
+        pic:  80
+    Component  20:
+        Type: 112 (Picture)
+        x:    460
+        y:    12
+        w:    4
+        h:    131
+        pic:  80
+    Component  21:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    36
+        w:    14
+        h:    18
+    Component  22:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    303
+        w:    13
+        h:    17
+    Component  23:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    285
+        w:    14
+        h:    18
+    Component  24:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    267
+        w:    14
+        h:    18
+    Component  25:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    249
+        w:    14
+        h:    18
+    Component  26:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    231
+        w:    14
+        h:    18
+    Component  27:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    213
+        w:    14
+        h:    18
+    Component  28:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    195
+        w:    14
+        h:    18
+    Component  29:
+        Type: 109 (Hotspot)
+        x:    466
+        y:    177
+        w:    14
+        h:    18
+Page  15:
+    Component   1:
+        Type:     116 (Text)
+        x:        144
+        y:        241
+        w:        133
+        h:        30
+        txt_maxl: 30
+        txt:      "Upgrading"
+    Component   2:
+        Type: 112 (Picture)
+        x:    144
+        y:    85
+        w:    132
+        h:    132
+        pic:  104
+    Component   3:
+        Type: 51 (Timer)
+        tim:  60
+        en:   1
+
+Done.
+
