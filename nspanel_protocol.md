@@ -7,11 +7,26 @@
 | `{"HMI_dimOpen":%b}`                                                      | Set screen saver<BR>`0` = screen always on<BR>`1` = screen off                                                                                                                                                   |                                                                                                          | 87   |
 | `{"wifiState":"%s","rssiLevel":%d}`                                       | Set wifi icon<BR>%s = connecting; disconnect; pairing; nonetwork<BR>RssiLevel `%d` = 0 – 4                                                                                                                       | if using higher number draws other picture resources                                                     | 85   |
 | `{"year":1970,"mon":1,"day":1,"hour":2,"min":0,"week":4}`<BR>`{"year":2021,"mon":10,"day":12,"hour":23,"min":22,"week":2}` | Set time and date    | Every entry must respect the range for its type, f.e. month cannot be higher than 12 | 82   |
-| `{"ATCEnable":%b}`                                                        | Thermostat screen toggle<BR>`0` = off<BR>`1` = off                                                                                                                                                               |                                                                                                          | 84   |
-| `{"ATCMode":%b}`                                                          | Thermostat screen mode icons<BR>`0` = manual<BR>`1` = auto                                                                                                                                                       |                                                                                                          | 84   |
-| `{"ATCExpect0":%d}`                                                       | Thermostat screen temperature for manual mode                                                                                                                                                                    |                                                                                                          | 84   |
-| `{"ATCExpect1":%d}`                                                       | Thermostat screen temperature for auto mode                                                                                                                                                                      |                                                                                                          | 84   |
-| `{"HMI_ATCDevice":{"ctype":"device","id":"%s","outlet":%b,"etype":"%s"}}` | Configure thermostat<BR>id = identification string<BR>outlet = `0` for relay 1 or `1` for relay 2 used for thermostat<BR> etype = `hot` or `cold`                                                                |                                                                                                          | 84   |
+
+### Thermostat screen control
+Typical payloads
+```json
+{"ATCEnable":0,"ATCMode":0,"ATCExpect0":27}
+{"ATCMode":1,"ATCExpect1":29}
+{"ATCEnable":1}
+```  
+Original payload to activate thermostat screen
+```json
+{"HMI_ATCDevice":{"ctype":"device","id":"1001383218","outlet":0,"etype":"hot"}}
+```
+  
+  |                                                              | Action and options<BR>`%b` = binary 0 or 1,`%d` = number, `%s` = string                                                                                                                                          | Notes                                                                                                    | Type |
+|---------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|------|
+| `"ATCEnable":%b`                                                        | Thermostat screen toggle<BR>`0` = off<BR>`1` = off | Same payload is received when using the toggle on the screen | 84   |
+| `"ATCMode":%b`                                                          | Thermostat screen mode icons<BR>`0` = manual<BR>`1` = auto | Same payload is received when using the toggle on the screen | 84   |
+| `"ATCExpect0":%d`                                                       | Thermostat screen temperature for manual mode                                                                                                                                                                    |                                                                                                          | 84   |
+| `"ATCExpect1":%d`                                                       | Thermostat screen temperature for auto mode                                                                                                                                                                      |                                                                                                          | 84   |
+| `"HMI_ATCDevice":{"ctype":"device","id":"%s","outlet":%b,"etype":"%s"}` | Activate thermostat page<BR>id `%s` = identification string<BR> outlet `%b` = `0` for Relay1 or `1` for Relay2 used for thermostat<BR> etype `%s` = `hot` or `cold`                                                                |                                                                                                          | 84   |
 ### Set weather forecast display
 
 Typical payload
