@@ -28,6 +28,7 @@ Typical payload
 ```json
 {"switches":[{"outlet":1,"switch":"on"}]}
 ```
+
 | JSON Payload | Action and options<BR>`%b` = 0 or 1,`%d` = number, `%s` = string                | Notes         | Type |
 |------------|------------------------------|---|------|
 | `"outlet":%b` | Choose relay<BR>&emsp;`0` = Relay1<BR>&emsp;`1` = Relay2   | | 87 |
