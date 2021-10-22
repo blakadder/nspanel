@@ -4,13 +4,15 @@
 ```
 
 ## Utility commands
+
 | JSON Payload | Action and options<BR>`%b` = binary choice 0 or 1,`%d` = number, `%s` = string                | Notes         | Type |
-|------------|------------------------------|---|------|
+|--------------|------------------------------|---|------|
 | `{"queryInfo":"version"}`| Query screen version                  |     | 80   |
 | `{"queryInfo":"factory"}`| Enter factory test mode               |     | 80   |
 | `{"HMI_dimOpen":%b}`     | Set screen saver<BR>`0` = screen always on<BR>`1` = screen off                         |     | 87   |
 
 ## Main Page
+
 | JSON Payload | Action and options<BR>`%b` = binary 0 or 1,`%d` = number, `%s` = string                | Notes         | Type |
 |------------|------------------------------|---|------|
 | `{"wifiState":"%s","rssiLevel":%d}` | Set wifi icon<BR>`%s` = connecting; disconnect; pairing; nonetwork<BR>RssiLevel `%d` = 0 – 4         | if using higher number draws other picture resources    | 85   |
@@ -47,6 +49,7 @@ Typical payload
 
 ## Thermostat Page
 ### Thermostat screen control
+
 Typical payloads
 ```json
 {"ATCEnable":0,"ATCMode":0,"ATCExpect0":27}
@@ -62,6 +65,7 @@ Typical payloads
 | `"ATCExpect1":%d`      | Thermostat screen temperature for auto mode | Same payload is received when using the toggle on the screen        | 84   |
   
 ### Activate thermostat page
+
 Original payload to activate thermostat screen
 ```json
 {"HMI_ATCDevice":{"ctype":"device","id":"1001383218","outlet":0,"etype":"hot"}}
@@ -100,6 +104,7 @@ When initially drawing widgets you need to send commands for all 8 indexes, if y
 ![UIID's](images/uiid.jpg)
 
 ### Set widget status
+
 ```json
 {"relation":[{"ctype":"device","id":"1000f190e6","params":{"switch":"off","ltype":"white","white":{"br":42,"ct":96}},"name":"Bulb A..","online":true}]}
 {"relation":[{"ctype":"device","id":"1001382a6f","params":{"switch":"off","colorR":248,"colorG":0,"colorB":240,"mode":1,"bright":40,"light_type":1},"name":"L2","online":false}]}
