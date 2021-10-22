@@ -94,4 +94,4 @@ crc=struct.pack('H', msg_crc)
 command=binascii.hexlify(bytes_payload + crc)
 
 print("\n\n")
-print("SSerialSend5", bytes.decode(command))
+print(bytes.decode(command))
