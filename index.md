@@ -77,11 +77,15 @@ Original payload to activate thermostat screen
   
 | Key | Action and options<BR>`%b` = 0 or 1,`%d` = number, `%s` = string                | Notes        | Type |
 |------------|------------------------------|---|------|
-| `"id":"%s"` | `%s` = identification string |                                                            | 84 |
+| `"id":"%s"` | `%s` = identification string |  If the id is identical to a widget id the internal script will control the chosen outlet        | 84 |
 | `"outlet":%b` | `%b` = relay used to control thermostat<BR>&emsp;`0` = Relay1<BR>&emsp;`1` = Relay2 | Does not matter without original firmware| 84 |
 | `"etype":"%s"` | `%s` = `hot` or `cold` | Draws different icon on the page                                | 84 |
   
-On success Nextion returns `{"ctype":"device","id":"%s","resourcetype":"ATC"}`
+On success Nextion returns `{"ctype":"device","id":"%s","resourcetype":"ATC"}`.
+
+When in Auto mode the thermostat logic is coded in the screen itself and will send messages to activate the outlet # of a switch with the same "id": `{"id":"1000f71b01","params":{"switch":"on","switches":[{"switch":"on","outlet":1}]}}}`
+
+In original firmware the "id" is the NSPanel's one but you can set the "id" to a switch widget one. In that case you can mirror the message received from thermostat and control the switch widget.
 
 ## Widgets
 
@@ -110,6 +114,7 @@ When initially drawing widgets you need to send commands for all 8 indexes, if y
 ### Set widget status
 
 ```json
+{"relation":[{"ctype":"device","id":"1001383218","name":"NSPane..","online":true,"params":{"switches":[{"switch":"off","outlet":0},{"switch":"off","outlet":1}]}}]}
 {"relation":[{"ctype":"device","id":"1000f190e6","params":{"switch":"off","ltype":"white","white":{"br":42,"ct":96}},"name":"Bulb A..","online":true}]}
 {"relation":[{"ctype":"device","id":"1001382a6f","params":{"switch":"off","colorR":248,"colorG":0,"colorB":240,"mode":1,"bright":40,"light_type":1},"name":"L2","online":false}]}
 {"relation":[{"ctype":"group","id":"1000f190e6","params":{"switches":[{"switch":"off","outlet":0},{"switch":"off","outlet":1},{"switch":"on","outlet":2},{"switch":"on","outlet":3}]}}]}
