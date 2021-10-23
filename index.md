@@ -124,4 +124,6 @@ When initially drawing widgets you need to send commands for all 8 indexes, if y
 | `"name":"%s"` | Name for the widget icon. 8 characters max, rest will not be visible | Depending on which characters are used it can fit 9 characters | 86 |
 | `"online":%bool` | Online status of the widget<BR>`%b` = `true` or `false` | Groups do not have online status | 86 |
 
-Scenes can only set the name.
+Scenes only use id and name.
+
+You can omit "relation:" key from the payload and use its value only: `{"ctype":"group","id":"1","params":{"switch":"off","switches":[{"switch":"off","outlet":0}]}}`
