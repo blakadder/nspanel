@@ -376,7 +376,6 @@ tasmota.cmd("NSPDim" + str(persist.dim)) # set energy saving
 tasmota.add_rule("Tele#Wifi#RSSI", set_wifi) # set rule to update wifi icon
 tasmota.add_rule("wifi#disconnected", set_disconnect) # set rule to change wifi icon on disconnect
 tasmota.add_rule("mqtt#disconnected", set_disconnect) # set rule to change wifi icon on disconnect
-tasmota.add_rule("system#boot",  /-> nsp.screeninit()) 
 tasmota.add_rule("system#boot",  sync_weather) 
 tasmota.add_rule("system#boot", /-> nsp.screeninit()) 
 tasmota.add_rule("Time#Minute", nsp.set_clock) # set rule to update clock every minute
