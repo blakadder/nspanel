@@ -1,4 +1,5 @@
 # Sonoff NSPanel Tasmota driver v0.3 | code by blakadder and s-hadinger.
+if persist.has("dim")  else   persist.dim = "1"  end
 var mode = "NSPanel"
 var lon = str(tasmota.cmd("Longitude")["Longitude"])[0..-3]
 var lat = str(tasmota.cmd("Latitude")["Latitude"])[0..-3]
