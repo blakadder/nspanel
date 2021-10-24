@@ -235,13 +235,9 @@ class NSPanel : Driver
   def screeninit()
     # self.send('{"queryInfo":"version"}')
     self.send('{"HMI_ATCDevice":{"ctype":"device","id":"' + self.atc['id'] + '","outlet":' + self.atc['outlet'] + ',"etype":"' + self.atc['etype'] + '"}')
-    print("draw")
     self.draw()
-    print("clock")
     self.set_clock()
-    print("power")
     self.set_power()
-    print("weather")
     self.set_weather()
     tasmota.cmd("State")
     tasmota.cmd("TelePeriod")
@@ -382,6 +378,7 @@ tasmota.add_rule("wifi#disconnected", set_disconnect) # set rule to change wifi 
 tasmota.add_rule("mqtt#disconnected", set_disconnect) # set rule to change wifi icon on disconnect
 tasmota.add_rule("system#boot",  /-> nsp.screeninit()) 
 tasmota.add_rule("system#boot",  sync_weather) 
+tasmota.add_rule("system#boot", /-> nsp.screeninit()) 
 tasmota.add_rule("Time#Minute", nsp.set_clock) # set rule to update clock every minute
 tasmota.add_rule("Tele#ANALOG#Temperature1", set_temp) # rule to run set_temp on teleperiod
 tasmota.add_rule("StatusSNS#ANALOG#Temperature1", set_temp) # rule to run set_temp on teleperiod
