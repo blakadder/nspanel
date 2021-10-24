@@ -1,8 +1,9 @@
-# Sonoff NSPanel Tasmota driver v0.3 | code by blakadder and s-hadinger.
-if persist.has("dim")  else   persist.dim = "1"  end
+# Sonoff NSPanel Tasmota driver v0.4 | code by blakadder and s-hadinger.
 var mode = "NSPanel"
 var lon = str(tasmota.cmd("Longitude")["Longitude"])[0..-3]
 var lat = str(tasmota.cmd("Latitude")["Latitude"])[0..-3]
+
+if persist.has("dim")  else   persist.dim = "1"  end
 
   var widget = {
 # 1 = toggle switch horizontal
@@ -32,10 +33,10 @@ var lat = str(tasmota.cmd("Latitude")["Latitude"])[0..-3]
 class NSPanel : Driver
   # set thermostat options
   static atc = { 
-    "id":     "thermostat",
-    "outlet": "1",  # outlet used 0 = left, 1 = right
-    "etype":  "cold", # hot or cold
-    "mirror":  true, # if true mirrors all commands to reflect new state
+    "id":     "1",
+    "outlet": "0",  # outlet used 0 = left, 1 = right
+    "etype":  "hot", # hot or cold
+    "mirror":  true, # if true Tasmota mirror sends all commands to reflect new state
   }
 
   static types = {
@@ -144,16 +145,6 @@ class NSPanel : Driver
     log("NSP: Sent = " + str(payload_bin), 3)
   end
 
-  # sets time and date according to Tasmota local time
-  def set_clock()
-    var now = tasmota.rtc()
-    var time_raw = now['local']
-    var nsp_time = tasmota.time_dump(time_raw)
-    var time_payload = '{"year":' + str(nsp_time['year']) + ',"mon":' + str(nsp_time['month']) + ',"day":' + str(nsp_time['day']) + ',"hour":' + str(nsp_time['hour']) + ',"min":' + str(nsp_time['min']) + ',"week":' + str(nsp_time['weekday']) + '}'
-    log('NSP: Time and date set = ' + time_payload, 3)
-    self.send(time_payload)
-  end
-
   def set_power()
     var ps = tasmota.get_power()
     for i:0..1
@@ -186,6 +177,16 @@ class NSPanel : Driver
       end
       i += 1
     end
+  end
+
+  # sets time and date according to Tasmota local time
+  def set_clock()
+    var now = tasmota.rtc()
+    var time_raw = now['local']
+    var nsp_time = tasmota.time_dump(time_raw)
+    var time_payload = '{"year":' + str(nsp_time['year']) + ',"mon":' + str(nsp_time['month']) + ',"day":' + str(nsp_time['day']) + ',"hour":' + str(nsp_time['hour']) + ',"min":' + str(nsp_time['min']) + ',"week":' + str(nsp_time['weekday']) + '}'
+    log('NSP: Time and date set = ' + time_payload, 3)
+    self.send(time_payload)
   end
 
 # update weather forecast, since the provider doesn't support range I winged it with FeelsLike temperature
@@ -236,7 +237,6 @@ class NSPanel : Driver
     # self.send('{"queryInfo":"version"}')
     self.send('{"HMI_ATCDevice":{"ctype":"device","id":"' + self.atc['id'] + '","outlet":' + self.atc['outlet'] + ',"etype":"' + self.atc['etype'] + '"}')
     self.draw()
-    self.set_clock()
     self.set_power()
     self.set_weather()
     tasmota.cmd("State")
@@ -353,6 +353,9 @@ def set_temp(value)
   nsp.send(temp_payload)
 end
 
+tasmota.add_rule("Tele#ANALOG#Temperature1", set_temp) # rule to run set_temp on teleperiod
+tasmota.add_rule("StatusSNS#ANALOG#Temperature1", set_temp) # rule to run set_temp on teleperiod
+
 # set wifi icon status
 def set_wifi(value)
   var rssi = (value-1)/20
@@ -368,18 +371,16 @@ end
 # set weather every 60 minutes
 def sync_weather()
   nsp.set_weather()
-  print("ok")
   tasmota.set_timer(60*60*1000, sync_weather)
 end
 
-tasmota.cmd("NSPDim" + str(persist.dim)) # set energy saving 
+tasmota.cmd("Rule3 1")
 tasmota.add_rule("Tele#Wifi#RSSI", set_wifi) # set rule to update wifi icon
 tasmota.add_rule("wifi#disconnected", set_disconnect) # set rule to change wifi icon on disconnect
 tasmota.add_rule("mqtt#disconnected", set_disconnect) # set rule to change wifi icon on disconnect
-tasmota.add_rule("system#boot",  sync_weather) 
+tasmota.add_rule("system#boot", sync_weather) 
 tasmota.add_rule("system#boot", /-> nsp.screeninit()) 
-tasmota.add_rule("Time#Minute", nsp.set_clock) # set rule to update clock every minute
-tasmota.add_rule("Tele#ANALOG#Temperature1", set_temp) # rule to run set_temp on teleperiod
-tasmota.add_rule("StatusSNS#ANALOG#Temperature1", set_temp) # rule to run set_temp on teleperiod
+tasmota.add_rule("Time#Minute", /-> nsp.set_clock()) # set rule to update clock every minute
 
 tasmota.cmd("TelePeriod")
+tasmota.cmd("NSPDim" + str(persist.dim)) # set energy saving 
