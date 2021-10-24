@@ -11,5 +11,5 @@ Tasmota driver [`nspanel.be`](https://github.com/blakadder/nspanel/blob/main/nsp
 <a href="https://ko-fi.com/S6S650JEK" target="_blank"><img src="https://img.shields.io/static/v1?logo=kofi&label=&message=buy%20me%20a%20coffee&color=FBAA19&labelColor=434B57"></a>
 
 ## To-do List
-- [] Home Assistant trigger discovery for scene widgets
-- [] Home Assistant blueprint? for thermostat page 
+- [ ] Home Assistant trigger discovery for scene widgets
+- [ ] Home Assistant blueprint? for thermostat page 
