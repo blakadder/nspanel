@@ -123,12 +123,31 @@ When initially drawing widgets you need to send commands for all 8 indexes, if y
 
 | Key | Action and options<BR>`%b` = 0 or 1,`%d` = number, `%s` = string                | Notes        | Type |
 |------------|------------------------------|---|------|
-| `"ctype":"%s"` | Identical to the "ctype" used when drawing the widget  | | 86 |
+| `"ctype":"%s"` | Identical to the "ctype" used when drawing the widget. __not required__  | | 86 |
 | `"id":%s` | Identical to the "id" used when drawing the widget | | 86 |
 | `"params":` | Parameters of the widget, different for each widget | When you use the widget you receive all the available parameters in the same payload | 86 |
-| `"name":"%s"` | Name for the widget icon. 8 characters max, rest will not be visible | Depending on which characters are used it can fit 9 characters | 86 |
-| `"online":%bool` | Online status of the widget<BR>`%b` = `true` or `false` | Groups do not have online status | 86 |
+| `"name":"%s"` | Name for the widget icon. 8 characters max, rest will not be visible. __not required__ | Depending on which characters are used it can fit 9 characters | 86 |
+| `"online":%bool` | Online status of the widget<BR>`%b` = `true` or `false`  | Required **only for device** ctype | 86 |
 
-Scenes only use id and name.
+Scenes only use id and name. `"relation"` key can be omitted or replaces in JSON: 
 
-You can omit "relation:" key from the payload and use its value only: `{"ctype":"group","id":"1","params":{"switch":"off","switches":[{"switch":"off","outlet":0}]}}`
+#### Widget state command examples 
+##### Any widget state to online and on 
+`{"relation":[{"id":"7","online":true,"params":{"switch":"on"}}]}`
+
+##### Toggle switch widget icon to on 
+`{"relation":{"id":"1","params":{"switch":"on"}}}`
+
+##### Individual toggles inside multi-switch widgets
+`{"relation":{"id":"2","params":{"switches":[{"switch":"off","outlet":1}]}}}`
+
+##### LED Strip 
+`{"relation":{"id":"5","params":{"light_type":1,"colorR":0,"colorG":0,"colorB":0,"bright":74,"mode":1}}}`
+
+##### White bulb
+`{"relation":{"id":"6","params":{"ltype":"white","white":{"br":100,"ct":171}}}}`
+
+##### Color Bulb
+Color Bulb to RGB mode - `{"relation":{"id":"7","params":{"ltype":"color","color":{"r":248,"g":252,"b":248,"br":50}}}}`
+
+Color bulb to white mode - `{"relation":{"id":"7","params":{"ltype":"white","white":{"100":50,"ct":171}}}}`
