@@ -1,7 +1,8 @@
-# Sonoff NSPanel Tasmota driver v0.4 | code by blakadder and s-hadinger.
+# Sonoff NSPanel Tasmota driver v0.41 | code by blakadder and s-hadinger.
 var mode = "NSPanel"
-var lon = str(tasmota.cmd("Longitude")["Longitude"])[0..-3]
-var lat = str(tasmota.cmd("Latitude")["Latitude"])[0..-3]
+var devicename = tasmota.cmd("DeviceName")["DeviceName"]
+var loc = persist.has("loc") ? persist.loc : "North Pole"       
+tasmota.get_option(8) == 0 ? "F" : "C"
 
 if persist.has("dim")  else   persist.dim = "1"  end
 
@@ -20,23 +21,23 @@ if persist.has("dim")  else   persist.dim = "1"  end
 # leave empty brackets if you don't want a widget there
 # ctype scene doesn't have an uiid
 # index "name   ", "ctype", uiid | name max 8 characters, rest will be truncated)
-    1: ["Index 1", "group", 1],
-    2: ["Index 2", "group", 2],
-    3: ["Index 3", "group", 3],
-    4: ["Index 4", "group", 4],
-    5: ["Index 5", "group", 33],
-    6: ["Index 6", "group", 52],
-    7: ["Index 7", "group", 69],
-    8: ["Index 8", "scene"],
-  }
+  1: ["Index 1", "group", 1],
+  2: ["Index 2", "group", 2],
+  3: ["Index 3", "group", 3],
+  4: ["Index 4", "group", 4],
+  5: ["Index 5", "group", 33],
+  6: ["Index 6", "device", 52],
+  7: ["Index 7", "device", 69],
+  8: ["Index 8", "scene"],
+}
 
 class NSPanel : Driver
   # set thermostat options
   static atc = { 
-    "id":     "1",
-    "outlet": "0",  # outlet used 0 = left, 1 = right
+    "id":     "panel",
+    "outlet": "0",  # outlet to use for trigger
     "etype":  "hot", # hot or cold
-    "mirror":  true, # if true Tasmota mirror sends all commands to reflect new state
+    "mirror":  true, # if true Tasmota will resend triggers as commands to keep the state on screen
   }
 
   static types = {
@@ -128,7 +129,7 @@ class NSPanel : Driver
     var payload_bin = self.encode(payload)
     self.ser.write(payload_bin)
     # print("NSP: Sent =", payload)
-    log("NSP: Sent = " + str(payload_bin), 3)
+    log("NSP: NSPanel payload sent = " + str(payload_bin), 3)
   end
 
   # send a nextion payload
@@ -142,9 +143,20 @@ class NSPanel : Driver
     var payload_bin = self.encodenx(payload)
     self.ser.write(payload_bin)
     # print("NSP: Sent =", payload_bin)
-    log("NSP: Sent = " + str(payload_bin), 3)
+    log("NSP: Nextion command sent = " + str(payload_bin), 3)
   end
 
+  # sets time and date according to Tasmota local time
+  def set_clock()
+    var now = tasmota.rtc()
+    var time_raw = now['local']
+    var nsp_time = tasmota.time_dump(time_raw)
+    var time_payload = '{"year":' + str(nsp_time['year']) + ',"mon":' + str(nsp_time['month']) + ',"day":' + str(nsp_time['day']) + ',"hour":' + str(nsp_time['hour']) + ',"min":' + str(nsp_time['min']) + ',"week":' + str(nsp_time['weekday']) + '}'
+    log('NSP: Time and date synced with ' + time_payload, 3)
+    self.send(time_payload)
+  end
+
+  # sync main screen power bars with tasmota POWER status
   def set_power()
     var ps = tasmota.get_power()
     for i:0..1
@@ -155,10 +167,11 @@ class NSPanel : Driver
       end
     end
     var json_payload = '{\"switches\":[{\"outlet\":0,\"switch\":\"' + ps[0] + '\"},{\"outlet\":1,\"switch\":\"' + ps[1] +  '\"}]}'
-    log('NSP: Switch State = ' + json_payload)
+    log('NSP: Switch state updated with ' + json_payload)
     self.send(json_payload)
   end  
 
+  # draw widgets
   def draw()
     var i = 1
     while i < 9
@@ -179,20 +192,10 @@ class NSPanel : Driver
     end
   end
 
-  # sets time and date according to Tasmota local time
-  def set_clock()
-    var now = tasmota.rtc()
-    var time_raw = now['local']
-    var nsp_time = tasmota.time_dump(time_raw)
-    var time_payload = '{"year":' + str(nsp_time['year']) + ',"mon":' + str(nsp_time['month']) + ',"day":' + str(nsp_time['day']) + ',"hour":' + str(nsp_time['hour']) + ',"min":' + str(nsp_time['min']) + ',"week":' + str(nsp_time['weekday']) + '}'
-    log('NSP: Time and date set = ' + time_payload, 3)
-    self.send(time_payload)
-  end
-
 # update weather forecast, since the provider doesn't support range I winged it with FeelsLike temperature
   def set_weather()
       var cl = webclient()
-      var url = "http://wttr.in/" + lat + "," + lon + '?format=%f:%x:%t'
+      var url = "http://wttr.in/" + loc + '?format=%f:%x:%t'
       cl.begin(url)
       cl.GET()
       var b = cl.get_string()
@@ -230,13 +233,17 @@ class NSPanel : Driver
         }   
       var wttr = '{"HMI_weather":' + str(symbol[c[1]]) + ',"HMI_outdoorTemp":{"current":' + str(int(c[0])) + ',"range":"' + str(int(c[2])) + ',Feel"}}'
       self.send(wttr)
+      log('NSP: Weather updated with ' + wttr, 3)
   end
 
   # commands to populate an empty screen, should be executed when screen initializes
   def screeninit()
     # self.send('{"queryInfo":"version"}')
     self.send('{"HMI_ATCDevice":{"ctype":"device","id":"' + self.atc['id'] + '","outlet":' + self.atc['outlet'] + ',"etype":"' + self.atc['etype'] + '"}')
+    self.send('{"relation":[{"ctype":"device","id":"panel","name":"' + devicename + '","online":true}]}')
+    self.send('{"HMI_dimOpen":' + persist.dim + '}')
     self.draw()
+    self.set_clock()
     self.set_power()
     self.set_weather()
     tasmota.cmd("State")
@@ -249,7 +256,6 @@ class NSPanel : Driver
     var msg = self.ser.read()   # read bytes from serial as bytes
     import string
       if size(msg) > 0
-        # log("NSP: Received Raw =", bytes('msg'), 3)   # print the message as string
         print("NSP: Received Raw =", msg)
         if msg[0..1] == self.header
           mode = "NSPanel"
@@ -267,8 +273,7 @@ class NSPanel : Driver
             end        
             msg = msg[5..j]
               if size(msg) > 2
-                if msg == bytes('7B226572726F72223A307D') 
-                # don't publish {"error":0}
+                if msg == bytes('7B226572726F72223A307D') # don't publish {"error":0}
                 else 
                 var jm = string.format("{\"NSPanel\":%s}",msg.asstring())
                 tasmota.publish_result(jm, "RESULT")
@@ -276,8 +281,7 @@ class NSPanel : Driver
               end
           end
         elif msg == bytes('000000FFFFFF88FFFFFF')
-          log("NSP: Screen Initialized")   
-          # print the message as string
+          log("NSP: Screen Initialized")   # print the message as string
           self.screeninit()
         else
           var jm = string.format("{\"NSPanel\":{\"Nextion\":\"%s\"}}",str(msg[0..-4]))
@@ -292,8 +296,7 @@ nsp=NSPanel()
 tasmota.add_rule("power1#state", /-> nsp.set_power())
 tasmota.add_rule("power2#state", /-> nsp.set_power())
 
-# add nspsend command to Tasmota
-
+# add NSPSend command to Tasmota
 def nspsend(cmd, idx, payload, payload_json)
   # NSPSend2 sends Nextion commands
   if idx == 2
@@ -309,6 +312,7 @@ end
 
 tasmota.add_cmd('NSPSend', nspsend)
 
+# add NSPMode command to Tasmota
 def modeselect(NSPMode, idx, payload)
   if payload == "1"
     nsp.sendnx('DRAKJHSUYDGBNCJHGJKSHBDN')
@@ -326,6 +330,7 @@ end
 
 tasmota.add_cmd('NSPMode', modeselect)
 
+# add NSPDim command to Tasmota
 def dimopen(NSPDim, idx, payload)
   if payload == "0" || payload == "1"
     persist.dim = payload
@@ -335,33 +340,43 @@ def dimopen(NSPDim, idx, payload)
     payload = str(persist.dim)
   end
   import string
-  var jm = string.format("{\"NSPanel\":{\"Energy Saving\":%s}}",payload)
+  var jm = string.format("{\"NSPanel\":{\"Energy-saving\":%s}}",payload)
   tasmota.publish_result(jm, "RESULT")
 end
 
 tasmota.add_cmd('NSPDim', dimopen)
 
-# sets temperature unit to Tasmota's
+# add NSPLocation command to Tasmota
+def setloc(NSPLocation, idx, payload)
+  if size(payload) > 1
+    persist.loc = payload
+    tasmota.resp_cmnd_done()
+  elif payload 
+    payload = loc
+  end
+  import string
+  var jm = string.format("{\"NSPanel\":{\"Location\":\"%s\"}}",payload)
+  tasmota.publish_result(jm, "RESULT")
+end
 
-persist.tempunit = tasmota.cmd('Status 10')['StatusSNS']['TempUnit']
+tasmota.add_cmd('NSPLocation', setloc)
 
-# set display temperature to value:int
-
+# set displayed indoor temperature to value:int
 def set_temp(value)
   var temp_payload = '{"temperature":' + str(value) + ',"tempUnit":"' + persist.tempunit + '"}'
-  log('NSP: Temperature set = ' + temp_payload, 3)
+  log('NSP: Indoor temperature set with ' + temp_payload, 3)
   nsp.send(temp_payload)
 end
 
 tasmota.add_rule("Tele#ANALOG#Temperature1", set_temp) # rule to run set_temp on teleperiod
-tasmota.add_rule("StatusSNS#ANALOG#Temperature1", set_temp) # rule to run set_temp on teleperiod
 
 # set wifi icon status
+
 def set_wifi(value)
   var rssi = (value-1)/20
-  var rssi_payload = '{"wifiState":"connected","rssiLevel":' + str(rssi) + '}'
-  log('NSP: Wi-Fi icon = ' + rssi_payload, 3)
-  nsp.send(rssi_payload)
+  rssi = '{"wifiState":"connected","rssiLevel":' + str(rssi) + '}'
+  log('NSP: Wi-Fi icon set with ' + rssi, 3)
+  nsp.send(rssi)
 end
 
 def set_disconnect()
@@ -371,16 +386,17 @@ end
 # set weather every 60 minutes
 def sync_weather()
   nsp.set_weather()
+  print("ok")
   tasmota.set_timer(60*60*1000, sync_weather)
 end
 
-tasmota.cmd("Rule3 1")
-tasmota.add_rule("Tele#Wifi#RSSI", set_wifi) # set rule to update wifi icon
-tasmota.add_rule("wifi#disconnected", set_disconnect) # set rule to change wifi icon on disconnect
-tasmota.add_rule("mqtt#disconnected", set_disconnect) # set rule to change wifi icon on disconnect
+tasmota.cmd("Rule3 1") # needed until Berry bug fixed
+tasmota.cmd("State")
 tasmota.add_rule("system#boot", sync_weather) 
 tasmota.add_rule("system#boot", /-> nsp.screeninit()) 
 tasmota.add_rule("Time#Minute", /-> nsp.set_clock()) # set rule to update clock every minute
+tasmota.add_rule("Tele#Wifi#RSSI", set_wifi) # set rule to update wifi icon
+tasmota.add_rule("wifi#disconnected", set_disconnect) # set rule to change wifi icon on disconnect
+tasmota.add_rule("mqtt#disconnected", set_disconnect) # set rule to change wifi icon on disconnect
 
 tasmota.cmd("TelePeriod")
-tasmota.cmd("NSPDim" + str(persist.dim)) # set energy saving 
