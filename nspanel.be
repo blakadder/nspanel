@@ -2,7 +2,7 @@
 var mode = "NSPanel"
 var devicename = tasmota.cmd("DeviceName")["DeviceName"]
 var loc = persist.has("loc") ? persist.loc : "North Pole"       
-tasmota.get_option(8) == 0 ? "F" : "C"
+persist.tempunit = tasmota.get_option(8) == 0 ? "F" : "C"
 
 if persist.has("dim")  else   persist.dim = "1"  end
 
@@ -351,7 +351,7 @@ def setloc(NSPLocation, idx, payload)
   if size(payload) > 1
     persist.loc = payload
     tasmota.resp_cmnd_done()
-  elif payload 
+  elif  
     payload = loc
   end
   import string
