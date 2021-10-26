@@ -5,6 +5,7 @@ var loc = persist.has("loc") ? persist.loc : "North Pole"
 persist.tempunit = tasmota.get_option(8) == 0 ? "F" : "C"
 
 if persist.has("dim")  else   persist.dim = "1"  end
+persist.save() # save persist file until serial bug fixed
 
   var widget = {
 # 1 = toggle switch horizontal
@@ -351,7 +352,8 @@ def setloc(NSPLocation, idx, payload)
   if size(payload) > 1
     persist.loc = payload
     tasmota.resp_cmnd_done()
-  elif  
+    persist.save()
+  else
     payload = loc
   end
   import string
