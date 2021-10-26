@@ -1,8 +1,8 @@
-# Sonoff NSPanel Tasmota driver v0.41 | code by blakadder and s-hadinger.
+# Sonoff NSPanel Tasmota driver v0.42 | code by blakadder and s-hadinger.
 var mode = "NSPanel"
 var devicename = tasmota.cmd("DeviceName")["DeviceName"]
 var loc = persist.has("loc") ? persist.loc : "North Pole"       
-persist.tempunit = tasmota.get_option(8) == 0 ? "F" : "C"
+persist.tempunit = tasmota.get_option(8) == 1 ? "F" : "C"
 
 if persist.has("dim")  else   persist.dim = "1"  end
 persist.save() # save persist file until serial bug fixed
