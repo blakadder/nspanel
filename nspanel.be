@@ -1,4 +1,4 @@
-# Sonoff NSPanel Tasmota driver v0.42 | code by blakadder and s-hadinger.
+# Sonoff NSPanel Tasmota driver v0.43 | code by blakadder and s-hadinger.
 var mode = "NSPanel"
 var devicename = tasmota.cmd("DeviceName")["DeviceName"]
 var loc = persist.has("loc") ? persist.loc : "North Pole"       
@@ -353,6 +353,8 @@ def setloc(NSPLocation, idx, payload)
     persist.loc = payload
     tasmota.resp_cmnd_done()
     persist.save()
+    loc = persist.loc
+    nsp.set_weather()
   else
     payload = loc
   end
