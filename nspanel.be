@@ -1,4 +1,4 @@
-# Sonoff NSPanel Tasmota driver v0.43 | code by blakadder and s-hadinger.
+# Sonoff NSPanel Tasmota driver v0.44 | code by blakadder and s-hadinger.
 var mode = "NSPanel"
 var devicename = tasmota.cmd("DeviceName")["DeviceName"]
 var loc = persist.has("loc") ? persist.loc : "North Pole"       
@@ -393,6 +393,8 @@ def sync_weather()
   print("ok")
   tasmota.set_timer(60*60*1000, sync_weather)
 end
+
+sync_weather()
 
 tasmota.cmd("Rule3 1") # needed until Berry bug fixed
 tasmota.cmd("State")
