@@ -390,11 +390,8 @@ end
 # set weather every 60 minutes
 def sync_weather()
   nsp.set_weather()
-  print("ok")
   tasmota.set_timer(60*60*1000, sync_weather)
 end
-
-sync_weather()
 
 tasmota.cmd("Rule3 1") # needed until Berry bug fixed
 tasmota.cmd("State")
