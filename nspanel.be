@@ -1,4 +1,4 @@
-# Sonoff NSPanel Tasmota driver v0.41 | code by blakadder and s-hadinger.
+# Sonoff NSPanel Tasmota driver v0.43 | code by blakadder and s-hadinger.
 var mode = "NSPanel"
 var devicename = tasmota.cmd("DeviceName")["DeviceName"]
 var loc = persist.has("loc") ? persist.loc : "North Pole"       
