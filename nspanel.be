@@ -1,4 +1,4 @@
-# Sonoff NSPanel Tasmota driver v0.44 | code by blakadder and s-hadinger.
+# Sonoff NSPanel Tasmota driver v0.41 | code by blakadder and s-hadinger.
 var mode = "NSPanel"
 var devicename = tasmota.cmd("DeviceName")["DeviceName"]
 var loc = persist.has("loc") ? persist.loc : "North Pole"       
@@ -35,7 +35,7 @@ persist.save() # save persist file until serial bug fixed
 class NSPanel : Driver
   # set thermostat options
   static atc = { 
-    "id":     "panel",
+    "id":     "thermostat",
     "outlet": "0",  # outlet to use for trigger
     "etype":  "hot", # hot or cold
     "mirror":  true, # if true Tasmota will resend triggers as commands to keep the state on screen
@@ -243,10 +243,10 @@ class NSPanel : Driver
     self.send('{"HMI_ATCDevice":{"ctype":"device","id":"' + self.atc['id'] + '","outlet":' + self.atc['outlet'] + ',"etype":"' + self.atc['etype'] + '"}')
     self.send('{"relation":[{"ctype":"device","id":"panel","name":"' + devicename + '","online":true}]}')
     self.send('{"HMI_dimOpen":' + persist.dim + '}')
-    self.draw()
     self.set_clock()
     self.set_power()
     self.set_weather()
+    self.draw()
     tasmota.cmd("State")
     tasmota.cmd("TelePeriod")
   end
@@ -387,19 +387,19 @@ def set_disconnect()
   nsp.send('{"wifiState":"nonetwork","rssiLevel":0}')
 end
 
-# set weather every 60 minutes
-def sync_weather()
+def sync_weather() # set weather every 60 minutes
   nsp.set_weather()
+  print("Weather forecast synced")
   tasmota.set_timer(60*60*1000, sync_weather)
 end
 
 tasmota.cmd("Rule3 1") # needed until Berry bug fixed
 tasmota.cmd("State")
-tasmota.add_rule("system#boot", sync_weather) 
-tasmota.add_rule("system#boot", /-> nsp.screeninit()) 
 tasmota.add_rule("Time#Minute", /-> nsp.set_clock()) # set rule to update clock every minute
 tasmota.add_rule("Tele#Wifi#RSSI", set_wifi) # set rule to update wifi icon
 tasmota.add_rule("wifi#disconnected", set_disconnect) # set rule to change wifi icon on disconnect
 tasmota.add_rule("mqtt#disconnected", set_disconnect) # set rule to change wifi icon on disconnect
+tasmota.add_rule("system#boot", /-> nsp.screeninit()) 
+tasmota.add_rule("time#initialized", sync_weather)
 
 tasmota.cmd("TelePeriod")
