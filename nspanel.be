@@ -2,8 +2,8 @@
 var mode = "NSPanel"
 var devicename = tasmota.cmd("DeviceName")["DeviceName"]
 persist.tempunit = tasmota.get_option(8) == 1 ? "F" : "C"
-
 if persist.has("dim")  else   persist.dim = "1"  end
+var loc = persist.has("loc") ? persist.loc : "North Pole"       
 persist.save() # save persist file until serial bug fixed
 
   var widget = {
@@ -245,7 +245,6 @@ class NSPanel : Driver
         "392": 42,   # ThunderySnowShowers
         "395": 29,   # HeavySnowShowers   
       }   
-    var loc = persist.has("loc") ? persist.loc : "North Pole"       
     var temp
     var feels
     var cl = webclient()
