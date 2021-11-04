@@ -1,7 +1,6 @@
 # Sonoff NSPanel Tasmota driver v0.43 | code by blakadder and s-hadinger.
 var mode = "NSPanel"
 var devicename = tasmota.cmd("DeviceName")["DeviceName"]
-var loc = persist.has("loc") ? persist.loc : "North Pole"       
 persist.tempunit = tasmota.get_option(8) == 1 ? "F" : "C"
 
 if persist.has("dim")  else   persist.dim = "1"  end
@@ -195,46 +194,79 @@ class NSPanel : Driver
 
 # update weather forecast, since the provider doesn't support range I winged it with FeelsLike temperature
   def set_weather()
-      var cl = webclient()
-      var url = "http://wttr.in/" + loc + '?format=%f:%x:%t'
-      cl.begin(url)
-      cl.GET()
-      var b = cl.get_string()
-      var c = []
-      var s = size(b)   
-      var i = s-1   # start from last
-      while i > 0
-        if b[i] == ":"           
-          c.push(b[i+1..s-1]) # push last msg to list
-          b = b[(0..i-1)]   # write the rest back to b
+    import json
+      var weather_icon = {
+        "": 30,      # Unknown             
+        "113": 1,    # Sunny      
+        "116": 2,    # PartlyCloudy   
+        "119": 2,    # Cloudy             
+        "122": 7,    # VeryCloudy           
+        "143": 11,   # Fog                 
+        "176": 40,   # LightShowers     
+        "179": 24,   # LightSleetShowers 
+        "182": 24,   # LightSleet        
+        "185": 24,   # LightSleet        
+        "200": 42,   # ThunderyShowers  
+        "227": 20,   # LightSnow  
+        "230": 22,   # HeavySnow        
+        "260": 11,   # Fog                 
+        "263": 40,   # LightShowers     
+        "266": 40,   # LightRain      
+        "281": 24,   # LightSleet        
+        "284": 24,   # LightSleet        
+        "293": 40,   # LightRain      
+        "296": 40,   # LightRain      
+        "299": 18,   # HeavyShowers      
+        "302": 18,   # HeavyRain        
+        "305": 18,   # HeavyShowers      
+        "308": 18,   # HeavyRain        
+        "311": 24,   # LightSleet        
+        "314": 24,   # LightSleet        
+        "317": 24,   # LightSleet        
+        "320": 20,   # LightSnow  
+        "323": 22,   # LightSnowShowers 
+        "326": 22,   # LightSnowShowers 
+        "329": 22,   # HeavySnow        
+        "332": 22,   # HeavySnow        
+        "335": 29,   # HeavySnowShowers   
+        "338": 22,   # HeavySnow        
+        "350": 24,   # LightSleet        
+        "353": 24,   # LightSleet        
+        "356": 18,   # HeavyShowers      
+        "359": 18,   # HeavyRain        
+        "362": 24,   # LightSleetShowers 
+        "365": 24,   # LightSleetShowers 
+        "368": 22,   # LightSnowShowers 
+        "371": 29,   # HeavySnowShowers   
+        "374": 24,   # LightSleetShowers 
+        "377": 24,   # LightSleet        
+        "386": 42,   # ThunderyShowers  
+        "389": 42,   # ThunderyHeavyRain  
+        "392": 42,   # ThunderySnowShowers
+        "395": 29,   # HeavySnowShowers   
+      }   
+    var loc = persist.has("loc") ? persist.loc : "North Pole"       
+    var temp
+    var feels
+    var cl = webclient()
+    var url = "http://wttr.in/" + loc + '?format=j2'
+    cl.set_useragent("curl/7.72.0")      
+    cl.begin(url)
+      if cl.GET() == 200
+        var b = json.load(cl.get_string())
+        if persist.tempunit == "F"
+          temp = b['current_condition'][0]['temp_F']
+          feels = b['current_condition'][0]['FeelsLikeF']
+        else
+          temp = b['current_condition'][0]['temp_C']
+          feels = b['current_condition'][0]['FeelsLikeC']
         end
-        i -= 1
-      end
-      c.push(b)
-      var symbol = {
-            "?": 30,    # Unknown             
-            "mm": 2,    # Cloudy             
-            "=": 11,    # Fog                 
-            "///": 18,  # HeavyRain        
-            "//": 18,   # HeavyShowers      
-            "**": 22,   # HeavySnow        
-            "*/*": 29,  # "HeavySnowShowers   
-            "/": 40,    # LightRain      
-            ".": 40,    # LightShowers     
-            "x": 24,    # LightSleet        
-            "x/": 24,   # LightSleetShowers 
-            "*": 20,    # LightSnow  
-            "*/": 22,   # LightSnowShowers 
-            "m": 2,     # PartlyCloudy   
-            "o": 1,     # Sunny      
-            "/!/": 42,  # ThunderyHeavyRain  
-            "!/": 42,   # ThunderyShowers  
-            "*!*": 42,  # ThunderySnowShowers
-            "mmm": 7,   # VeryCloudy           
-        }   
-      var wttr = '{"HMI_weather":' + str(symbol[c[1]]) + ',"HMI_outdoorTemp":{"current":' + str(int(c[0])) + ',"range":"' + str(int(c[2])) + ',Feel"}}'
+      var wttr = '{"HMI_weather":' + str(weather_icon[b['current_condition'][0]['weatherCode']]) + ',"HMI_outdoorTemp":{"current":' + temp + ',"range":"' + feels + ',Feel"}}'
       self.send(wttr)
-      log('NSP: Weather updated with ' + wttr, 3)
+      log('NSP: Weather update for location: ' + b['nearest_area'][0]['areaName'][0]['value'] + ", "+ b['nearest_area'][0]['country'][0]['value'])
+      else
+      log('NSP: Weather update failed!', 3)      
+    end
   end
 
   # commands to populate an empty screen, should be executed when screen initializes
