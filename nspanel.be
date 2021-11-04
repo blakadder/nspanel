@@ -1,4 +1,4 @@
-# Sonoff NSPanel Tasmota driver v0.43 | code by blakadder and s-hadinger.
+# Sonoff NSPanel Tasmota driver v0.45 | code by blakadder and s-hadinger
 var mode = "NSPanel"
 var devicename = tasmota.cmd("DeviceName")["DeviceName"]
 persist.tempunit = tasmota.get_option(8) == 1 ? "F" : "C"
