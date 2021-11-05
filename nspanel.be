@@ -251,7 +251,7 @@ class NSPanel : Driver
     var url = "http://wttr.in/" + loc + '?format=j2'
     cl.set_useragent("curl/7.72.0")      
     cl.begin(url)
-      if cl.GET() == 200
+      if cl.GET() == "200" || cl.GET() == 200
         var b = json.load(cl.get_string())
         if persist.tempunit == "F"
           temp = b['current_condition'][0]['temp_F']
