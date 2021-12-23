@@ -1,5 +1,6 @@
-# Sonoff NSPanel Tasmota driver v0.45 | code by blakadder and s-hadinger
+# Sonoff NSPanel Tasmota driver v0.46 | code by blakadder and s-hadinger
 var mode = "NSPanel"
+import persist
 var devicename = tasmota.cmd("DeviceName")["DeviceName"]
 persist.tempunit = tasmota.get_option(8) == 1 ? "F" : "C"
 if persist.has("dim")  else   persist.dim = "1"  end
