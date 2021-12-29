@@ -1,4 +1,4 @@
-# Sonoff NSPanel Tasmota driver v0.46 | code by blakadder and s-hadinger
+# Sonoff NSPanel Tasmota driver v0.46.1 | code by blakadder and s-hadinger
 var mode = "NSPanel"
 import persist
 var devicename = tasmota.cmd("DeviceName")["DeviceName"]
@@ -38,7 +38,7 @@ class NSPanel : Driver
     "id":     "thermostat",
     "outlet": "0",  # outlet to use for trigger
     "etype":  "hot", # hot or cold
-    "mirror":  true, # if true Tasmota will resend triggers as commands to keep the state on screen
+    "mirror":  false, # if true Tasmota will resend triggers as commands to keep the state on screen
   }
 
   static types = {
