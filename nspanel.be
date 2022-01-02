@@ -247,7 +247,8 @@ class NSPanel : Driver
         "395": 29,   # HeavySnowShowers   
       }   
     var temp
-    var feels
+    var tmin
+    var tmax
     var cl = webclient()
     var url = "http://wttr.in/" + loc + '?format=j2'
     cl.set_useragent("curl/7.72.0")      
@@ -256,12 +257,14 @@ class NSPanel : Driver
         var b = json.load(cl.get_string())
         if persist.tempunit == "F"
           temp = b['current_condition'][0]['temp_F']
-          feels = b['current_condition'][0]['FeelsLikeF']
+          tmin = b['weather'][0]['mintempF']
+          tmax = b['weather'][0]['maxtempF']
         else
           temp = b['current_condition'][0]['temp_C']
-          feels = b['current_condition'][0]['FeelsLikeC']
+          tmin = b['weather'][0]['mintempC']
+          tmax = b['weather'][0]['maxtempC']
         end
-      var wttr = '{"HMI_weather":' + str(weather_icon[b['current_condition'][0]['weatherCode']]) + ',"HMI_outdoorTemp":{"current":' + temp + ',"range":"' + feels + ',Feel"}}'
+      var wttr = '{"HMI_weather":' + str(weather_icon[b['current_condition'][0]['weatherCode']]) + ',"HMI_outdoorTemp":{"current":' + temp + ',"range":" ' + tmin + ', ' + tmax + '"}}'
       self.send(wttr)
       log('NSP: Weather update for location: ' + b['nearest_area'][0]['areaName'][0]['value'] + ", "+ b['nearest_area'][0]['country'][0]['value'])
       else
