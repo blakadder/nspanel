@@ -310,7 +310,13 @@ class NSPanel : Driver
             msg = msg[5..j]
               if size(msg) > 2
                 if msg == bytes('7B226572726F72223A307D') # don't publish {"error":0}
-                else 
+                else
+                print(msg)
+                if msg == bytes('7B226964223A2233227D7D')
+                  msg = bytes('7B226964223A2233227D')
+                  print("bamboozled")
+                end
+                print(msg) 
                 var jm = string.format("{\"NSPanel\":%s}",msg.asstring())
                 tasmota.publish_result(jm, "RESULT")
                 end
