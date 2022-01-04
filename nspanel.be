@@ -1,7 +1,9 @@
-# Sonoff NSPanel Tasmota driver v0.47 | code by blakadder and s-hadinger
+# Sonoff NSPanel Tasmota driver v0.46.1-mod | code by blakadder and s-hadinger
+
 var mode = "NSPanel"
 import persist
 var devicename = tasmota.cmd("DeviceName")["DeviceName"]
+var devicetopic = tasmota.cmd("Topic")["Topic"] # does NOT work if you have %06X in the topic
 persist.tempunit = tasmota.get_option(8) == 1 ? "F" : "C"
 if persist.has("dim")  else   persist.dim = "1"  end
 var loc = persist.has("loc") ? persist.loc : "North Pole"       
@@ -22,14 +24,14 @@ persist.save() # save persist file until serial bug fixed
 # leave empty brackets if you don't want a widget there
 # ctype scene doesn't have an uiid
 # index "name   ", "ctype", uiid | name max 8 characters, rest will be truncated)
-  1: ["Index 1", "group", 1],
-  2: ["Index 2", "group", 2],
-  3: ["Index 3", "group", 3],
-  4: ["Index 4", "group", 4],
+  1: ["Index 1", "group", 1],  
+  2: ["Index 2", "group", 8],   # not triggering the EVENT#WIDGETn rule?
+  3: ["Index 3", "scene"],      # placed on purpose to trigger Issue#8
+  4: ["Index 4", "group", 7],
   5: ["Index 5", "group", 33],
   6: ["Index 6", "device", 52],
   7: ["Index 7", "device", 69],
-  8: ["Index 8", "scene"],
+  8: ["Index 8", "group", 3],   # not triggering the EVENT#WIDGETn rule?
 }
 
 class NSPanel : Driver
@@ -172,7 +174,7 @@ class NSPanel : Driver
     self.send(json_payload)
   end  
 
-  # draw widgets
+  # draw widgets & subscribe to MQTT topics
   def draw()
     var i = 1
     while i < 9
@@ -182,6 +184,9 @@ class NSPanel : Driver
           wdgt = '{"HMI_resources":[{"index":' + str(i) + ',"ctype":"' + widget[i][1] + '","id":"' + str(i) + '"}]}'
         else
           wdgt = '{"HMI_resources":[{"index":' + str(i) + ',"ctype":"' + widget[i][1] + '","id":"' + str(i) + '","uiid":' + str(widget[i][2]) + '}]}'
+          
+          tasmota.cmd("Subscribe2 WIDGET" + str(i) + ", stat/" + devicetopic + "/WIDGET" + str(i))  # create/sub to widget topics
+          tasmota.add_rule("EVENT#WIDGET" + str(i), self.proc_widget)   # create rules to trigger widget processing on topic changes 
         end
         var name = '{"relation":[{"ctype":"' + widget[i][1] + '","id":"' + str(i) + '","name":"' + widget[i][0][0..7] + '"}]}'
         self.send(wdgt)
@@ -284,13 +289,58 @@ class NSPanel : Driver
     self.draw()
     tasmota.cmd("State")
     tasmota.cmd("TelePeriod")
+    
+    # for testing  
+    self.send('{"relation":[{"id":"6","online":true,"params":{"switch":"off"}}]}')  # "activate" white bulb
+    self.send('{"relation":[{"id":"7","online":true,"params":{"switch":"off","ltype":"color"}}]}')  # "activate" color bulb (needs ltype, else it wont open on touch???)
+  end
+  
+  def proc_widget(value, trigger, msg)
+    import json
+        print("Widget event triggered")
+        var key = value[6..size(value)-1]
+        var w_id = value[12..size(value)-1]
+        var data = json.dump(trigger['Event'][key])
+        var payload = '{"relation":{"id":"' + str(w_id) + '","params":' + str(data) + '}}'
+        tasmota.cmd("NSPsend" + payload)  # workaround since "self" is not working here???
+        #self.send(payload)
+  end
+
+  def widget_mqtt(msg)
+    print("Widget action detected!")
+    print(msg)
+    import string
+    import json
+    var w_id
+    var j = size(msg) - 1
+    while msg[j] != 0x7D
+        msg = msg[0..-1]
+        j -= 1
+    end        
+    msg = msg[5..j]
+    if msg == bytes('7B226964223A2233227D7D') # dirty fix for widget 3 as scene
+        msg = bytes('7B226964223A2233227D')
+        print("Dirty widget-3-fix applied")
+    end
+    var widget_data = json.load(msg.asstring())
+    w_id = widget_data['id']
+    var jm = "Scene" + w_id
+    if widget_data.find('params') != nil 
+        jm = json.dump(widget_data['params'])
+        print(jm)
+    end
+    var topic = "stat/" + devicetopic + "/WIDGET" + w_id
+    print(topic)
+    
+    tasmota.publish(topic, jm)
   end
 
   # read serial port and decode messages according to protocol used
   def every_100ms()
     if self.ser.available() > 0
     var msg = self.ser.read()   # read bytes from serial as bytes
-    import string
+    var is_widget = false
+	import string
       if size(msg) > 0
         print("NSP: Received Raw =", msg)
         if msg[0..1] == self.header
@@ -298,24 +348,30 @@ class NSPanel : Driver
           var lst = self.split_55(msg)
           for i:0..size(lst)-1
             msg = lst[i]
-              if self.atc['mirror'] == true
-                if msg[2] == 0x84 self.ser.write(msg)   # resend messages with type 0x84 for thermostat page
+            if self.atc['mirror'] == true
+                if msg[2] == 0x84 
+                    self.ser.write(msg)   # resend messages with type 0x84 for thermostat page
                 end
-              end
+            end
+			if msg[2] == 0x86
+				self.widget_mqtt(msg)
+                break
+            end
             var j = size(msg) - 1
             while msg[j] != 0x7D
               msg = msg[0..-1]
               j -= 1
             end        
             msg = msg[5..j]
-              if size(msg) > 2
-                if msg == bytes('7B226572726F72223A307D') # don't publish {"error":0}
-                else 
-                var jm = string.format("{\"NSPanel\":%s}",msg.asstring())
-                tasmota.publish_result(jm, "RESULT")
+            if size(msg) > 2
+                if msg == bytes('7B226572726F72223A307D')
+                    # don't publish {"error":0}
+                else
+                    var jm = string.format("{\"NSPanel\":%s}",msg.asstring())
+                    tasmota.publish_result(jm, "RESULT")
                 end
-              end
-          end
+            end
+        end
         elif msg == bytes('000000FFFFFF88FFFFFF')
           log("NSP: Screen Initialized")   # print the message as string
           self.screeninit()
@@ -325,7 +381,7 @@ class NSPanel : Driver
       end
     end
   end
-end      
+end
 
 nsp=NSPanel()
 
@@ -429,12 +485,13 @@ def sync_weather() # set weather every 60 minutes
 end
 
 tasmota.cmd("Rule3 1") # needed until Berry bug fixed
-tasmota.cmd("State")
+tasmota.cmd("State") 
 tasmota.add_rule("Time#Minute", /-> nsp.set_clock()) # set rule to update clock every minute
 tasmota.add_rule("Tele#Wifi#RSSI", set_wifi) # set rule to update wifi icon
 tasmota.add_rule("wifi#disconnected", set_disconnect) # set rule to change wifi icon on disconnect
 tasmota.add_rule("mqtt#disconnected", set_disconnect) # set rule to change wifi icon on disconnect
 tasmota.add_rule("system#boot", /-> nsp.screeninit()) 
 tasmota.add_rule("time#initialized", sync_weather)
+
 
 tasmota.cmd("TelePeriod")
