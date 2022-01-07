@@ -1,36 +1,14 @@
-# Sonoff NSPanel Tasmota driver v0.47 | code by blakadder and s-hadinger
+# Sonoff NSPanel Tasmota driver v0.46.1-mod | code by blakadder and s-hadinger
+
 var mode = "NSPanel"
 import persist
 var devicename = tasmota.cmd("DeviceName")["DeviceName"]
+var devicetopic = tasmota.cmd("Topic")["Topic"] # does NOT work if you have %06X in the topic
 persist.tempunit = tasmota.get_option(8) == 1 ? "F" : "C"
 if persist.has("dim")  else   persist.dim = "1"  end
 var loc = persist.has("loc") ? persist.loc : "North Pole"       
 persist.save() # save persist file until serial bug fixed
 
-  var widget = {
-# 1 = toggle switch horizontal
-# 2 = toggle switch double horizontal
-# 3 = toggle switch triple horizontal
-# 4 = toggle switch quad horizontal
-# 6 = toggle switch vertical
-# 7 = toggle switch double vertical
-# 8 = toggle switch triple vertical
-# 9 = toggle switch quad vertical
-# 33 = RGB light strip
-# 52 = CCT bulb
-# 69 = RGB+CCT bulb
-# leave empty brackets if you don't want a widget there
-# ctype scene doesn't have an uiid
-# index "name   ", "ctype", uiid | name max 8 characters, rest will be truncated)
-  1: ["Index 1", "group", 1],
-  2: ["Index 2", "group", 2],
-  3: ["Index 3", "group", 3],
-  4: ["Index 4", "group", 4],
-  5: ["Index 5", "group", 33],
-  6: ["Index 6", "device", 52],
-  7: ["Index 7", "device", 69],
-  8: ["Index 8", "scene"],
-}
 
 class NSPanel : Driver
   # set thermostat options
@@ -172,28 +150,7 @@ class NSPanel : Driver
     self.send(json_payload)
   end  
 
-  # draw widgets
-  def draw()
-    var i = 1
-    while i < 9
-      if size(widget[i]) > 1
-        var wdgt = ""
-        if widget[i][1] == "scene"
-          wdgt = '{"HMI_resources":[{"index":' + str(i) + ',"ctype":"' + widget[i][1] + '","id":"' + str(i) + '"}]}'
-        else
-          wdgt = '{"HMI_resources":[{"index":' + str(i) + ',"ctype":"' + widget[i][1] + '","id":"' + str(i) + '","uiid":' + str(widget[i][2]) + '}]}'
-        end
-        var name = '{"relation":[{"ctype":"' + widget[i][1] + '","id":"' + str(i) + '","name":"' + widget[i][0][0..7] + '"}]}'
-        self.send(wdgt)
-        self.send(name)
-      else
-      self.send('{"index":' + str(i) + ',"type":"delete"}')
-      end
-      i += 1
-    end
-  end
-
-# update weather forecast, since the provider doesn't support range I winged it with FeelsLike temperature
+# update weather forecast
   def set_weather()
     import json
       var weather_icon = {
@@ -274,23 +231,52 @@ class NSPanel : Driver
 
   # commands to populate an empty screen, should be executed when screen initializes
   def screeninit()
-    # self.send('{"queryInfo":"version"}')
     self.send('{"HMI_ATCDevice":{"ctype":"device","id":"' + self.atc['id'] + '","outlet":' + self.atc['outlet'] + ',"etype":"' + self.atc['etype'] + '"}')
     self.send('{"relation":[{"ctype":"device","id":"panel","name":"' + devicename + '","online":true}]}')
     self.send('{"HMI_dimOpen":' + persist.dim + '}')
     self.set_clock()
     self.set_power()
     self.set_weather()
-    self.draw()
     tasmota.cmd("State")
     tasmota.cmd("TelePeriod")
+  end
+
+  def widget_mqtt(msg)
+    print("Widget action detected!")
+    import string
+    import json
+    var j = size(msg) - 1
+    while msg[j] != 0x7D
+        msg = msg[0..-1]
+        j -= 1
+    end        
+    msg = msg[5..j]
+    if msg == bytes('7B226964223A2233227D7D') # dirty fix for widget 3 as scene
+        msg = bytes('7B226964223A2233227D')
+        print("Dirty widget-3-fix applied")
+    end
+    
+    var widget_data = json.load(msg.asstring())
+    var w_id = widget_data['id']
+    var payload
+    var topic
+    if size(widget_data) > 1
+        payload = json.dump(widget_data)
+        self.send('{"id":"' + str(w_id) + '","params":' + str(json.dump(widget_data['params'])) + '}')   #send params so stuff stays on screen 
+        topic = "stat/" + devicetopic + "/WIDGET"
+    else
+       payload = str(w_id)
+       topic = "stat/" + devicetopic + "/SCENE"
+    end
+    tasmota.publish(topic, payload)
   end
 
   # read serial port and decode messages according to protocol used
   def every_100ms()
     if self.ser.available() > 0
     var msg = self.ser.read()   # read bytes from serial as bytes
-    import string
+    var is_widget = false
+	import string
       if size(msg) > 0
         print("NSP: Received Raw =", msg)
         if msg[0..1] == self.header
@@ -298,24 +284,30 @@ class NSPanel : Driver
           var lst = self.split_55(msg)
           for i:0..size(lst)-1
             msg = lst[i]
-              if self.atc['mirror'] == true
-                if msg[2] == 0x84 self.ser.write(msg)   # resend messages with type 0x84 for thermostat page
+            if self.atc['mirror'] == true
+                if msg[2] == 0x84 
+                    self.ser.write(msg)   # resend messages with type 0x84 for thermostat page
                 end
-              end
+            end
+			if msg[2] == 0x86
+				self.widget_mqtt(msg)
+                break
+            end
             var j = size(msg) - 1
             while msg[j] != 0x7D
               msg = msg[0..-1]
               j -= 1
             end        
             msg = msg[5..j]
-              if size(msg) > 2
-                if msg == bytes('7B226572726F72223A307D') # don't publish {"error":0}
-                else 
-                var jm = string.format("{\"NSPanel\":%s}",msg.asstring())
-                tasmota.publish_result(jm, "RESULT")
+            if size(msg) > 2
+                if msg == bytes('7B226572726F72223A307D')
+                    # don't publish {"error":0}
+                else
+                    var jm = string.format("{\"NSPanel\":%s}",msg.asstring())
+                    tasmota.publish_result(jm, "RESULT")
                 end
-              end
-          end
+            end
+        end
         elif msg == bytes('000000FFFFFF88FFFFFF')
           log("NSP: Screen Initialized")   # print the message as string
           self.screeninit()
@@ -325,7 +317,7 @@ class NSPanel : Driver
       end
     end
   end
-end      
+end
 
 nsp=NSPanel()
 
@@ -347,6 +339,111 @@ def nspsend(cmd, idx, payload, payload_json)
 end
 
 tasmota.add_cmd('NSPSend', nspsend)
+
+# add WIDGET command to Tasmota
+def widget_cmd(cmd, idx, payload, payload_json)
+  import json
+  print(payload_json)
+  nsp.send('{"relation":' + str(json.dump(payload_json)) + '}')
+  tasmota.resp_cmnd_done()
+end
+
+tasmota.add_cmd('WIDGET', widget_cmd)
+
+# add NSPSetWidget command to Tasmota
+def nspsetwidget(cmd, idx, payload, payload_json)
+  var types = {
+        "single horizontal":1,
+        "double horizontal":2,
+        "triple horizontal":3,
+        "quad horizontal":4,
+        "single vertical":6,
+        "dual vertical":7,
+        "triple vertical":8,
+        "quad vertical":9,
+        "rgb strip":33,
+        "cct bulb":52,
+        "rgb+cct bulb":69,
+        "scene":0,
+    }
+  if payload_json == nil
+    tasmota.resp_cmnd_str("Error! Payload not JSON or corrupt")
+    return
+  else
+    var w_arg = payload_json
+    
+    if w_arg.find('delete') != nil
+        if w_arg['delete'] >= 1 || w_arg['delete'] <= 8
+            nsp.send('{"index":' + str(w_arg['delete']) + ',"type":"delete"}')
+            tasmota.resp_cmnd_str("Done! Widget " + str(w_arg['delete']) + " removed.")
+            return
+        else
+            tasmota.resp_cmnd_str("Error! Invalid position")
+            return  
+        end
+    end
+    
+    if size(w_arg) < 3 || w_arg.find('type') == nil || w_arg.find('name') == nil || w_arg.find('position') == nil
+        tasmota.resp_cmnd_str("Error! Argument missing")
+        return
+    end
+    
+    if types.find(w_arg['type']) == nil
+        tasmota.resp_cmnd_str("Error! Invalid type")
+        return
+    end
+    if w_arg['position'] < 1 || w_arg['position'] > 8
+        tasmota.resp_cmnd_str("Error! Invalid position")
+        return        
+    end
+    if w_arg.find('always_online') == nil
+        w_arg.insert('always_online', false)
+    end
+    if w_arg['always_online'] == true || w_arg['always_online'] == false
+        #is fine
+    else
+        tasmota.resp_cmnd_str("Error! Invalid always online state")
+        return        
+    end
+    
+    print(w_arg['type'])
+    print(w_arg['name'])
+    print(w_arg['position'])
+    print(w_arg['always_online'])
+    
+    var widget
+    var name
+    if w_arg['type'] == "scene"
+        widget  = '{"HMI_resources":[{"index":' + str(w_arg['position']) + ',"ctype":"scene","id":"' + str(w_arg['position']) + '"}]}'
+        name    = '{"relation":[{"ctype":"scene","id":"' + str(w_arg['position']) + '","name":"' + str(w_arg['name']) + '"}]}'
+    else
+        if types[w_arg['type']] < 33
+            widget  = '{"HMI_resources":[{"index":' + str(w_arg['position']) + ',"ctype":"device","id":"' + str(w_arg['position']) + '","uiid":' + str(types[w_arg['type']]) + '}]}'
+            name    = '{"relation":[{"ctype":"device","id":"' + str(w_arg['position']) + '","online":' + str(w_arg['always_online']) + ',"name":"' + str(w_arg['name']) + '"}]}'
+        else
+            widget  = '{"HMI_resources":[{"index":' + str(w_arg['position']) + ',"ctype":"device","id":"' + str(w_arg['position']) + '","uiid":' + str(types[w_arg['type']]) + '}]}'
+            name    = '{"relation":[{"ctype":"device","id":"' + str(w_arg['position']) + '","online":' + str(w_arg['always_online']) + ',"name":"' + str(w_arg['name']) + '","params":{"switch":"off"}}]}'
+        end
+    end
+    
+    print(widget)
+    print(name)
+    
+    nsp.send(widget)
+    nsp.send(name)
+    
+    var i = 1
+    while i < 9
+        var wdgt = '{"HMI_resources":[{"index":' + str(i) + ',"ctype":"","id":"' + str(i) + '"}]}'  # send useless stuff to every index to prevent "swipe lockup"
+        nsp.send(wdgt)
+        i += 1
+    end
+    
+    tasmota.resp_cmnd_done()
+  end
+end
+
+tasmota.add_cmd('NSPSetWidget', nspsetwidget)
 
 # add NSPMode command to Tasmota
 def modeselect(NSPMode, idx, payload)
@@ -429,12 +526,13 @@ def sync_weather() # set weather every 60 minutes
 end
 
 tasmota.cmd("Rule3 1") # needed until Berry bug fixed
-tasmota.cmd("State")
+tasmota.cmd("State") 
 tasmota.add_rule("Time#Minute", /-> nsp.set_clock()) # set rule to update clock every minute
 tasmota.add_rule("Tele#Wifi#RSSI", set_wifi) # set rule to update wifi icon
 tasmota.add_rule("wifi#disconnected", set_disconnect) # set rule to change wifi icon on disconnect
 tasmota.add_rule("mqtt#disconnected", set_disconnect) # set rule to change wifi icon on disconnect
 tasmota.add_rule("system#boot", /-> nsp.screeninit()) 
 tasmota.add_rule("time#initialized", sync_weather)
+
 
 tasmota.cmd("TelePeriod")
