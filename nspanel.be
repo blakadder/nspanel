@@ -210,6 +210,7 @@ class NSPanel : Driver
         "200": 42,   # ThunderyShowers  
         "227": 20,   # LightSnow  
         "230": 22,   # HeavySnow        
+        "248": 11,   # Fog                 
         "260": 11,   # Fog                 
         "263": 40,   # LightShowers     
         "266": 40,   # LightRain      
