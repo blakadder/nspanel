@@ -12,6 +12,10 @@ Tasmota driver [`nspanel.be`](https://github.com/blakadder/nspanel/blob/main/nsp
 
 ## Resources
 
+* [joBr99/nspanel-lovelance-ui](https://github.com/joBr99/nspanel-lovelance-ui) - custom UI for the NSPanel, with HomeAssistant Lovelance UI Design
+* [marcfager/nspanel-mf](https://github.com/marcfager/nspanel-mf) - custom HMI controlled by ESPHome for the Sonoff NSPanel. Includes home screen with weather data and clock, media player card, control of 8 lights (easily expandable), bootup screen and disable screen for alarm
+* [TyzzyT/Sonoff-NSPanel-with-ESPHome](https://github.com/TyzzyT/Sonoff-NSPanel-with-ESPHome) - example ESPHome config
+
 ### UI
  - `eu-background.xcf` - Gimp format XCF file to help you layout your custom UI.  Set as the background image in Nextion Editor then use `vis <id>,0` to hide it.  It shows the section of the screen which is hidden by the bezel in the EU version.  The alignment marks take this in to account, so the centre intersection in the image is the centre of the screen on the real device.
 
