@@ -12,8 +12,9 @@ Tasmota driver [`nspanel.be`](https://github.com/blakadder/nspanel/blob/main/nsp
 
 ## Resources
 
-* [joBr99/nspanel-lovelance-ui](https://github.com/joBr99/nspanel-lovelance-ui) - custom UI for the NSPanel, with HomeAssistant Lovelance UI Design
-* [marcfager/nspanel-mf](https://github.com/marcfager/nspanel-mf) - custom HMI controlled by ESPHome for the Sonoff NSPanel. Includes home screen with weather data and clock, media player card, control of 8 lights (easily expandable), bootup screen and disable screen for alarm
+* [sballano/nspanel_thermostat](sballano/nspanel_thermostat) - custom thermostat HMI
+* [joBr99/nspanel-lovelance-ui](https://github.com/joBr99/nspanel-lovelance-ui) - custom HMI with HomeAssistant Lovelance UI Design
+* [marcfager/nspanel-mf](https://github.com/marcfager/nspanel-mf) - custom HMI, includes home screen with weather data and clock, media player card, control of 8 lights (easily expandable), bootup screen and disable screen for alarm
 * [TyzzyT/Sonoff-NSPanel-with-ESPHome](https://github.com/TyzzyT/Sonoff-NSPanel-with-ESPHome) - example ESPHome config
 
 ### UI
