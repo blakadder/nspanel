@@ -112,7 +112,7 @@ class NSPanel : Driver
   def split_55(b)
     var ret = []
     var s = size(b)   
-    var i = s-1   # start from last
+    var i = s-2   # start from last-1
     while i > 0
       if b[i] == 0x55 && b[i+1] == 0xAA           
         ret.push(b[i..s-1]) # push last msg to list
