@@ -141,6 +141,9 @@ Scenes only use id and name. `"relation"` key can be omitted or replaces in JSON
 ##### Individual toggles inside multi-switch widgets
 `{"relation":{"id":"2","params":{"switches":[{"switch":"off","outlet":1}]}}}`
 
+##### Curtain
+`{"relation":{"id":"3","params":{"setclose":"70"}}}`
+
 ##### LED Strip 
 `{"relation":{"id":"5","params":{"light_type":1,"colorR":0,"colorG":0,"colorB":0,"bright":74,"mode":1}}}`
 
