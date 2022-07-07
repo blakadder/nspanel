@@ -303,12 +303,7 @@ class NSPanel : Driver
                 if msg[2] == 0x84 self.ser.write(msg)   # resend messages with type 0x84 for thermostat page
                 end
               end
-            var j = size(msg) - 1
-            while msg[j] != 0x7D
-              msg = msg[0..-1]
-              j -= 1
-            end        
-            msg = msg[5..j]
+            msg = msg[5..-4]
               if size(msg) > 2
                 if msg == bytes('7B226572726F72223A307D') # don't publish {"error":0}
                 else 
