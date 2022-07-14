@@ -13,7 +13,7 @@ Tasmota driver [`nspanel.be`](https://github.com/blakadder/nspanel/blob/main/nsp
 ## Resources
 
 * [NxPanel](https://community.openhab.org/t/nxpanel-replacement-firmware-for-sonoff-nspanel/132869) - custom display firmware
-* [sballano/nspanel_thermostat](sballano/nspanel_thermostat) - custom thermostat HMI
+* [sballano/nspanel_thermostat](https://github.com/sballano/nspanel_thermostat) - custom thermostat HMI
 * [joBr99/nspanel-lovelance-ui](https://github.com/joBr99/nspanel-lovelance-ui) - custom HMI with HomeAssistant Lovelance UI Design
 * [marcfager/nspanel-mf](https://github.com/marcfager/nspanel-mf) - custom HMI, includes home screen with weather data and clock, media player card, control of 8 lights (easily expandable), bootup screen and disable screen for alarm
 * [gijsje/ns-panel/](https://github.com/gijsje/ns-panel/) - custom HMI with esphome config
