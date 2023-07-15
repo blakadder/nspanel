@@ -255,22 +255,24 @@ class NSPanel : Driver
     cl.set_useragent("curl/7.72.0")
     cl.set_follow_redirects(true)
     cl.begin(url)
-      if cl.GET() == "200" || cl.GET() == 200
-        var b = json.load(cl.get_string())
-        if persist.tempunit == "F"
-          temp = b['current_condition'][0]['temp_F']
-          tmin = b['weather'][0]['mintempF']
-          tmax = b['weather'][0]['maxtempF']
-        else
-          temp = b['current_condition'][0]['temp_C']
-          tmin = b['weather'][0]['mintempC']
-          tmax = b['weather'][0]['maxtempC']
-        end
+    if cl.GET() == "200" || cl.GET() == 200
+      var b = json.load(cl.get_string())
+
+      if persist.tempunit == "F"
+        temp = b['current_condition'][0]['temp_F']
+        tmin = b['weather'][0]['mintempF']
+        tmax = b['weather'][0]['maxtempF']
+      else
+        temp = b['current_condition'][0]['temp_C']
+        tmin = b['weather'][0]['mintempC']
+        tmax = b['weather'][0]['maxtempC']
+      end
+
       var wttr = '{"HMI_weather":' + str(weather_icon[b['current_condition'][0]['weatherCode']]) + ',"HMI_outdoorTemp":{"current":' + temp + ',"range":" ' + tmin + ', ' + tmax + '"}}'
       self.send(wttr)
       log('NSP: Weather update for location: ' + b['nearest_area'][0]['areaName'][0]['value'] + ", "+ b['nearest_area'][0]['country'][0]['value'])
-      else
-      log('NSP: Weather update failed!', 3)      
+    else
+      log('NSP: Weather update failed!', 3)
     end
   end
 
