@@ -425,9 +425,10 @@ def set_disconnect()
 end
 
 def sync_weather() # set weather every 60 minutes
+  var interval = persist.has("weather_interval") ? persist.weather_interval : 60
   nsp.set_weather()
   print("Weather forecast synced")
-  tasmota.set_timer(60*60*1000, sync_weather)
+  tasmota.set_timer(interval*60*1000, sync_weather)
 end
 
 tasmota.cmd("Rule3 1") # needed until Berry bug fixed
