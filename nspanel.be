@@ -4,7 +4,8 @@ import persist
 var devicename = tasmota.cmd("DeviceName")["DeviceName"]
 persist.tempunit = tasmota.get_option(8) == 1 ? "F" : "C"
 if persist.has("dim")  else   persist.dim = "1"  end
-var loc = persist.has("loc") ? persist.loc : "North Pole"       
+var loc = persist.has("loc") ? persist.loc : "North Pole"
+var weather_interval = persist.has("weather_interval") ? persist.weather_interval : "60"
 persist.save() # save persist file until serial bug fixed
 
   var widget = {
@@ -404,6 +405,25 @@ end
 
 tasmota.add_cmd('NSPLocation', setloc)
 
+# add NSPWInterval command to Tasmota
+def setWInterval(NSPLocation, idx, p)
+  var payload = int(p)
+  if payload > 0
+    persist.weather_interval = payload
+    tasmota.resp_cmnd_done()
+    persist.save()
+    weather_interval = persist.weather_interval
+    nsp.set_weather()
+  else
+    payload = weather_interval
+  end
+  import string
+  var jm = string.format("{\"NSPanel\":{\"Weather Interval\":\"%d\"}}",payload)
+  tasmota.publish_result(jm, "RESULT")
+end
+
+tasmota.add_cmd('NSPWInterval', setWInterval)
+
 # set displayed indoor temperature to value:int
 def set_temp(value)
   var temp_payload = '{"temperature":' + str(value) + ',"tempUnit":"' + persist.tempunit + '"}'
@@ -427,7 +447,7 @@ def set_disconnect()
 end
 
 def sync_weather() # set weather every 60 minutes
-  var interval = persist.has("weather_interval") ? persist.weather_interval : 60
+  var interval = persist.has("weather_interval") ? int(persist.weather_interval) : 60
   nsp.set_weather()
   print("Weather forecast synced")
   tasmota.set_timer(interval*60*1000, sync_weather)
