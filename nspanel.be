@@ -252,7 +252,8 @@ class NSPanel : Driver
     var tmax
     var cl = webclient()
     var url = "http://wttr.in/" + loc + '?format=j2'
-    cl.set_useragent("curl/7.72.0")      
+    cl.set_useragent("curl/7.72.0")
+    cl.set_follow_redirects(true)
     cl.begin(url)
       if cl.GET() == "200" || cl.GET() == 200
         var b = json.load(cl.get_string())
