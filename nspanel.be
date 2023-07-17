@@ -4,7 +4,8 @@ import persist
 var devicename = tasmota.cmd("DeviceName")["DeviceName"]
 persist.tempunit = tasmota.get_option(8) == 1 ? "F" : "C"
 if persist.has("dim")  else   persist.dim = "1"  end
-var loc = persist.has("loc") ? persist.loc : "North Pole"       
+var loc = persist.has("loc") ? persist.loc : "North Pole"
+var weather_interval = persist.has("weather_interval") ? persist.weather_interval : "60"
 persist.save() # save persist file until serial bug fixed
 
   var widget = {
@@ -252,24 +253,27 @@ class NSPanel : Driver
     var tmax
     var cl = webclient()
     var url = "http://wttr.in/" + loc + '?format=j2'
-    cl.set_useragent("curl/7.72.0")      
+    cl.set_useragent("curl/7.72.0")
+    cl.set_follow_redirects(true)
     cl.begin(url)
-      if cl.GET() == "200" || cl.GET() == 200
-        var b = json.load(cl.get_string())
-        if persist.tempunit == "F"
-          temp = b['current_condition'][0]['temp_F']
-          tmin = b['weather'][0]['mintempF']
-          tmax = b['weather'][0]['maxtempF']
-        else
-          temp = b['current_condition'][0]['temp_C']
-          tmin = b['weather'][0]['mintempC']
-          tmax = b['weather'][0]['maxtempC']
-        end
+    if cl.GET() == "200" || cl.GET() == 200
+      var b = json.load(cl.get_string())
+
+      if persist.tempunit == "F"
+        temp = b['current_condition'][0]['temp_F']
+        tmin = b['weather'][0]['mintempF']
+        tmax = b['weather'][0]['maxtempF']
+      else
+        temp = b['current_condition'][0]['temp_C']
+        tmin = b['weather'][0]['mintempC']
+        tmax = b['weather'][0]['maxtempC']
+      end
+
       var wttr = '{"HMI_weather":' + str(weather_icon[b['current_condition'][0]['weatherCode']]) + ',"HMI_outdoorTemp":{"current":' + temp + ',"range":" ' + tmin + ', ' + tmax + '"}}'
       self.send(wttr)
       log('NSP: Weather update for location: ' + b['nearest_area'][0]['areaName'][0]['value'] + ", "+ b['nearest_area'][0]['country'][0]['value'])
-      else
-      log('NSP: Weather update failed!', 3)      
+    else
+      log('NSP: Weather update failed!', 3)
     end
   end
 
@@ -401,6 +405,25 @@ end
 
 tasmota.add_cmd('NSPLocation', setloc)
 
+# add NSPWInterval command to Tasmota
+def setWInterval(NSPLocation, idx, p)
+  var payload = int(p)
+  if payload > 0
+    persist.weather_interval = payload
+    tasmota.resp_cmnd_done()
+    persist.save()
+    weather_interval = persist.weather_interval
+    nsp.set_weather()
+  else
+    payload = weather_interval
+  end
+  import string
+  var jm = string.format("{\"NSPanel\":{\"Weather Interval\":\"%d\"}}",payload)
+  tasmota.publish_result(jm, "RESULT")
+end
+
+tasmota.add_cmd('NSPWInterval', setWInterval)
+
 # set displayed indoor temperature to value:int
 def set_temp(value)
   var temp_payload = '{"temperature":' + str(value) + ',"tempUnit":"' + persist.tempunit + '"}'
@@ -424,9 +447,10 @@ def set_disconnect()
 end
 
 def sync_weather() # set weather every 60 minutes
+  var interval = persist.has("weather_interval") ? int(persist.weather_interval) : 60
   nsp.set_weather()
   print("Weather forecast synced")
-  tasmota.set_timer(60*60*1000, sync_weather)
+  tasmota.set_timer(interval*60*1000, sync_weather)
 end
 
 tasmota.cmd("Rule3 1") # needed until Berry bug fixed
