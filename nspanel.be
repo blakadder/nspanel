@@ -55,6 +55,7 @@ class NSPanel : Driver
     "weather":    0x81,
     "queryInfo":  0x80,
     "HMI_dimOpen":  0x87,
+    "HMI_wallpaper":0x87,
   }
   static header = bytes('55AA') 
 
