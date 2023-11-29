@@ -11,6 +11,7 @@
 |--------------|------------------------------|---|------|
 | `{"queryInfo":"version"}`| Query screen version                  |     | 80   |
 | `{"queryInfo":"factory"}`| Enter factory test mode               |     | 80   |
+| `{"queryInfo":"direction"}`| Query screen orientation               |     | 80   |
 | `{"HMI_dimOpen":%b}`     | Set Energy-saving mode<BR>`0` = screen always on<BR>`1` = screen off        |     | 87   |
 
 ## Main Page
