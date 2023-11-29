@@ -106,7 +106,7 @@ Typical payloads
 | `"index":%d` | Set position of widget<BR>`1` to `8` counting from top left to right |                                                            | 86 |
 | `"ctype":"%s"` | Set type of widget<BR>&emsp;`device` = basic widget tracks online and offline status<BR>&emsp;`group` = same as device but always online<BR>&emsp;`scene` = trigger immediately, has no submenu | | 86 |
 | `"id":%s` | Used to identify the widget from other commands. Can be same as index number | | 86 |
-| `"uiid":%d` | Determines which icon and which subpage is used<BR>1 = toggle switch horizontal<BR>2 = toggle switch double horizontal<BR>3 = toggle switch triple horizontal<BR>4 = toggle switch quad horizontal<BR>6 = toggle switch vertical<BR>7 = toggle switch double vertical<BR>8 = toggle switch triple vertical<BR>9 = toggle switch quad vertical<BR>11 = Curtain<BR>33 = RGB light strip<BR>52 = CCT bulb<BR>69 = RGB+CCT bulb<BR> | Scenes do not have uiid      | 86 |
+| `"uiid":%d` | Determines which icon and which subpage is used<BR>1 = toggle switch horizontal<BR>2 = toggle switch double horizontal<BR>3 = toggle switch triple horizontal<BR>4 = toggle switch quad horizontal<BR>6 = toggle switch vertical<BR>7 = toggle switch double vertical<BR>8 = toggle switch triple vertical<BR>9 = toggle switch quad vertical<BR>11 = Curtain<BR>33 = RGB light strip<BR>44 = dimmable light<BR>52 = CCT bulb<BR>69 = RGB+CCT bulb<BR>151 = Air Conditioner Controller | Scenes do not have uiid      | 86 |
 | `"type":"delete"` | Delete widget at "index" |       | 86 |
 
 When initially drawing widgets you need to send commands for all 8 indexes, if you want to keep an index empty send a delete command for that index.
