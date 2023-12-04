@@ -24,6 +24,14 @@
 | `{"year":1970,"mon":1,"day":1,"hour":2,"min":0,"week":4}`<BR>`{"year":2021,"mon":10,"day":12,"hour":23,"min":22,"week":2}` | `week` is weekday, the rest is obvious | Every entry must respect the range for its type, f.e. month cannot be higher than 12 | 82   |
 | `{"HMI_wallpaper":%b}` | Set main screen Background/Wallpaper<BR> `%b` = wallpaper number, 0 = bedroom,  1 = livingroom | 0 is the default bedroom wallpaper, 1 is the cat and fireplace wallpaper in FW 1.4 | 87   |
 
+### Change wallpaper (firmware: **v1.4.0**) 
+Type: **0x87**
+
+| Wallpaper with cat                     | Wallpaper with a fireplace               |
+|----------------------------------------|------------------------------------------|
+| `{"HMI_wallpaper":1}`                  | `{"HMI_wallpaper":0}`                    |
+
+
 ### Show relays status
 
 Typical payload
