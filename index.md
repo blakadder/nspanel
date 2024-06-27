@@ -22,15 +22,15 @@
 | `{"temperature":%d,"humidity":%d,"tempUnit":%d}` | Set room temperature<BR>temperature `%d` = up to 5 characters, decimals are ignored but can be in the parameter       | humidity isn't displayed before FW 1.4<BR>temperature can be up to 5 characters<B>5th character overwrites the unit | 83   |
 | `{"tempUnit":%b}`        | Set displayed temperature unit<BR>`0` = °C<BR>`1` = °F   |     | 83   |
 | `{"year":1970,"mon":1,"day":1,"hour":2,"min":0,"week":4}`<BR>`{"year":2021,"mon":10,"day":12,"hour":23,"min":22,"week":2}` | `week` is weekday, the rest is obvious | Every entry must respect the range for its type, f.e. month cannot be higher than 12 | 82   |
-| `{"HMI_wallpaper":%b}` | Set main screen Background/Wallpaper<BR> `%b` = wallpaper number<BR> `0` = bedroom<BR>  `1` = livingroom<BR> `2` = black | `0` is the default bedroom wallpaper, `1` is the cat and fireplace wallpaper in FW 1.4. <br> Black `2` was added in [FW 1.5](https://sonoff.tech/product-review/product-insight/explore-new-updates-in-nspanel-v1-5-0/#x3TgH) | 87   |
+| `{"HMI_wallpaper":%b}` | Set main screen Background/Wallpaper<BR> `%b` = wallpaper number<BR> `0` = bedroom<BR>  `1` = livingroom<BR> `2` = black | `0` is the default bedroom wallpaper, `1` is the cat and fireplace wallpaper in FW 1.4. <br> `2` is Black in FW 1.5. | 87   |
 
-### Change wallpaper (firmware: **v1.4.0**) 
+### Change wallpaper 
+#### (firmware: **v1.4.0** && **v1.5.0**) 
 Type: **0x87**
 
-| Wallpaper with cat                     | Wallpaper with a fireplace               |
-|----------------------------------------|------------------------------------------|
-| `{"HMI_wallpaper":1}`                  | `{"HMI_wallpaper":0}`                    |
-
+| Wallpaper with cat                     | Wallpaper with a fireplace               | Black (only [FW 1.5](https://sonoff.tech/product-review/product-insight/explore-new-updates-in-nspanel-v1-5-0/#x3TgH))               |
+|----------------------------------------|------------------------------------------|----------------------------
+| `{"HMI_wallpaper":1}`                  | `{"HMI_wallpaper":0}`                    | `{"HMI_wallpaper":2}`                    |
 
 ### Show relays status
 
