@@ -4,8 +4,10 @@ import persist
 var devicename = tasmota.cmd("DeviceName")["DeviceName"]
 persist.tempunit = tasmota.get_option(8) == 1 ? "F" : "C"
 if persist.has("dim")  else   persist.dim = "1"  end
-var loc = persist.has("loc") ? persist.loc : "North Pole"
+var loc = str(tasmota.cmd("Latitude")["Latitude"]) + ',' + str(tasmota.cmd("Longitude")["Longitude"])
+loc = persist.has("loc") ? persist.loc : loc
 var weather_interval = persist.has("weather_interval") ? persist.weather_interval : "60"
+var weather_retries = 0   # consecutive weather sync failures (retry budget)
 persist.save() # save persist file until serial bug fixed
 
   var widget = {
@@ -59,13 +61,15 @@ class NSPanel : Driver
   }
   static header = bytes('55AA') 
 
-  var ser  # create serial port object
-       
+  var ser    # create serial port object
+  var rxbuf  # serial reassembly buffer (frames may span multiple reads)
+
   # intialize the serial port, if unspecified Tx/Rx are GPIO 16/17
   def init(tx, rx)
     if !tx   tx = 16 end
     if !rx   rx = 17 end
     self.ser = serial(rx, tx, 115200, serial.SERIAL_8N1)
+    self.rxbuf = bytes()
     tasmota.add_driver(self)
   end
 
@@ -109,21 +113,6 @@ class NSPanel : Driver
     var msg_crc = self.crc16(b)
     b.add(msg_crc, 2)       # crc 2 bytes, little endian
     return b
-  end
-
-  def split_55(b)
-    var ret = []
-    var s = size(b)   
-    var i = s-2   # start from last-1
-    while i > 0
-      if b[i] == 0x55 && b[i+1] == 0xAA           
-        ret.push(b[i..s-1]) # push last msg to list
-        b = b[(0..i-1)]   # write the rest back to b
-      end
-      i -= 1
-    end
-    ret.push(b)
-    return ret
   end
 
   # send a string payload (needs to be a valid json string)
@@ -196,7 +185,7 @@ class NSPanel : Driver
   end
 
 # update weather forecast, since the provider doesn't support range I winged it with FeelsLike temperature
-  def set_weather()
+  def set_weather_wttr()
     import json
       var weather_icon = {
         "": 30,      # Unknown             
@@ -257,79 +246,166 @@ class NSPanel : Driver
     cl.set_useragent("curl/7.72.0")
     cl.set_follow_redirects(true)
     cl.begin(url)
-    if cl.GET() == "200" || cl.GET() == 200
-      var b = json.load(cl.get_string())
-
-      if persist.tempunit == "F"
-        temp = b['current_condition'][0]['temp_F']
-        tmin = b['weather'][0]['mintempF']
-        tmax = b['weather'][0]['maxtempF']
-      else
-        temp = b['current_condition'][0]['temp_C']
-        tmin = b['weather'][0]['mintempC']
-        tmax = b['weather'][0]['maxtempC']
+    var code = cl.GET()          # single GET — calling it twice issues two requests
+    if code == 200 || code == "200"
+      try
+        var b = json.load(cl.get_string())
+        if persist.tempunit == "F"
+          temp = b['current_condition'][0]['temp_F']
+          tmin = b['weather'][0]['mintempF']
+          tmax = b['weather'][0]['maxtempF']
+        else
+          temp = b['current_condition'][0]['temp_C']
+          tmin = b['weather'][0]['mintempC']
+          tmax = b['weather'][0]['maxtempC']
+        end
+        self.send_weather(weather_icon.find(b['current_condition'][0]['weatherCode'], 30), temp, tmin, tmax)
+        log('NSP: Weather update for location: ' + b['nearest_area'][0]['areaName'][0]['value'] + ", "+ b['nearest_area'][0]['country'][0]['value'])
+        return true
+      except .. as e, m
+        log('NSP: weather response parse failed: ' + str(e) + ', ' + str(m), 2)
+        return false
       end
-
-      var wttr = '{"HMI_weather":' + str(weather_icon[b['current_condition'][0]['weatherCode']]) + ',"HMI_outdoorTemp":{"current":' + temp + ',"range":" ' + tmin + ', ' + tmax + '"}}'
-      self.send(wttr)
-      log('NSP: Weather update for location: ' + b['nearest_area'][0]['areaName'][0]['value'] + ", "+ b['nearest_area'][0]['country'][0]['value'])
-    else
-      log('NSP: Weather update failed!', 3)
     end
+    log('NSP: Weather update failed! (HTTP ' + str(code) + ')', 3)
+    return false
+  end
+
+  # shared sender: icon id + current/min/max temps to the screen
+  def send_weather(icon, temp, tmin, tmax)
+    self.send('{"HMI_weather":' + str(icon) + ',"HMI_outdoorTemp":{"current":' + str(temp) + ',"range":" ' + str(tmin) + ', ' + str(tmax) + '"}}')
+  end
+
+  # Open-Meteo — free, no API key, reliable; needs lat,long (loc defaults to the
+  # configured Tasmota coordinates; a place name falls through to wttr.in)
+  def set_weather_om()
+    import json
+    import string
+    # WMO weathercode -> NSPanel icon id (same icon ids as the wttr map)
+    var wmo_icon = {
+      0: 1, 1: 1, 2: 2, 3: 7,          # clear / mainly clear / partly / overcast
+      45: 11, 48: 11,                  # fog
+      51: 40, 53: 40, 55: 40,          # drizzle
+      56: 24, 57: 24,                  # freezing drizzle
+      61: 40, 63: 40, 65: 18,          # rain slight/mod/heavy
+      66: 24, 67: 24,                  # freezing rain
+      71: 20, 73: 22, 75: 22, 77: 20,  # snow
+      80: 40, 81: 40, 82: 18,          # rain showers
+      85: 20, 86: 29,                  # snow showers
+      95: 42, 96: 42, 99: 42           # thunderstorm
+    }
+    var ll = string.split(loc, ',')
+    if size(ll) < 2   return false   end   # place name, not lat,long — use wttr.in
+    var unit = persist.tempunit == "F" ? "fahrenheit" : "celsius"
+    var url = "https://api.open-meteo.com/v1/forecast?latitude=" + ll[0] +
+      "&longitude=" + ll[1] +
+      "&current_weather=true&daily=temperature_2m_min,temperature_2m_max" +
+      "&forecast_days=1&timezone=auto&temperature_unit=" + unit
+    var cl = webclient()
+    cl.set_useragent("curl/7.72.0")
+    cl.begin(url)
+    try
+      var code = cl.GET()
+      if code == 200 || code == "200"
+        var b = json.load(cl.get_string())
+        var cw = b['current_weather']
+        var dy = b['daily']
+        var rnd = /v -> int(v + (v >= 0 ? 0.5 : -0.5))   # round half away from zero
+        self.send_weather(wmo_icon.find(int(cw['weathercode']), 30),
+          rnd(cw['temperature']), rnd(dy['temperature_2m_min'][0]), rnd(dy['temperature_2m_max'][0]))
+        log('NSP: Weather update from Open-Meteo')
+        return true
+      end
+      log('NSP: Open-Meteo update failed! (HTTP ' + str(code) + ')', 3)
+      return false
+    except .. as e, m
+      log('NSP: Open-Meteo fetch/parse failed: ' + str(e) + ', ' + str(m), 2)
+      return false
+    end
+  end
+
+  # Open-Meteo first (reliable); wttr.in as fallback (handles place names, plain HTTP)
+  def set_weather()
+    if self.set_weather_om()  return true  end
+    return self.set_weather_wttr()
   end
 
   # commands to populate an empty screen, should be executed when screen initializes
   def screeninit()
     # self.send('{"queryInfo":"version"}')
-    self.send('{"HMI_ATCDevice":{"ctype":"device","id":"' + self.atc['id'] + '","outlet":' + self.atc['outlet'] + ',"etype":"' + self.atc['etype'] + '"}')
+    self.send('{"HMI_ATCDevice":{"ctype":"device","id":"' + self.atc['id'] + '","outlet":' + self.atc['outlet'] + ',"etype":"' + self.atc['etype'] + '"}}')
     self.send('{"relation":[{"ctype":"device","id":"panel","name":"' + devicename + '","online":true}]}')
     self.send('{"HMI_dimOpen":' + persist.dim + '}')
     self.set_clock()
     self.set_power()
-    self.set_weather()
+    try
+      self.set_weather()   # must never abort the rest of screeninit
+    except .. as e, m
+      log('NSP: weather update failed during screeninit: ' + str(e) + ', ' + str(m), 2)
+    end
     self.draw()
     tasmota.cmd("State")
     tasmota.cmd("TelePeriod")
   end
 
   # read serial port and decode messages according to protocol used
+  # frames: 55 AA | type | len lo | len hi | payload | crc lo | crc hi (+ optional stray 00)
   def every_100ms()
     if self.ser.available() > 0
-    var msg = self.ser.read()   # read bytes from serial as bytes
-    import string
-      if size(msg) > 0
-        print("NSP: Received Raw =", msg)
-        if msg[0..1] == self.header
-          mode = "NSPanel"
-          var lst = self.split_55(msg)
-          for i:0..size(lst)-1
-            msg = lst[i]
-              if self.atc['mirror'] == true
-                if msg[2] == 0x84 self.ser.write(msg)   # resend messages with type 0x84 for thermostat page
-                end
-              end
-            var j = size(msg) - 1
-            while msg[j] != 0x7D
-              msg = msg[0..-1]
-              j -= 1
-            end        
-            msg = msg[5..j]
-              if size(msg) > 2
-                if msg == bytes('7B226572726F72223A307D') # don't publish {"error":0}
-                else 
-                var jm = string.format("{\"NSPanel\":%s}",msg.asstring())
-                tasmota.publish_result(jm, "RESULT")
-                end
-              end
-          end
-        elif msg == bytes('000000FFFFFF88FFFFFF')
-          log("NSP: Screen Initialized")   # print the message as string
-          self.screeninit()
-        else
-          var jm = string.format("{\"NSPanel\":{\"Nextion\":\"%s\"}}",str(msg[0..-4]))
-          tasmota.publish_result(jm, "RESULT")        end       
-      end
+      var chunk = self.ser.read()   # read bytes from serial as bytes
+      print("NSP: Received Raw len=" + str(size(chunk)) + " =", chunk.tohex())
+      self.rxbuf += chunk
     end
+    var b = self.rxbuf
+    import string
+    while size(b) > 0
+      if size(b) >= 10 && b[0..9] == bytes('000000FFFFFF88FFFFFF')
+        log("NSP: Screen Initialized")   # print the message as string
+        self.screeninit()
+        b = b[10..-1]
+        continue
+      end
+      if b[0] == 0x00   # stray pad byte the screen appends after some frames
+        b = b[1..-1]
+        continue
+      end
+      if b[0] != 0x55
+        # non-protocol data (Nextion mode etc) — report and drop buffer
+        var jm = string.format("{\"NSPanel\":{\"Nextion\":\"%s\"}}",str(b[0..-4]))
+        tasmota.publish_result(jm, "RESULT")
+        b = bytes()
+        continue
+      end
+      if size(b) > 1 && b[1] != 0xAA
+        b = b[1..-1]   # stray 0x55 — drop it, keep whatever follows
+        continue
+      end
+      if size(b) < 5   break   end          # length field not fully arrived yet
+      var plen = b.get(3, 2)                # payload length, little endian
+      if plen <= 0 || plen > 256            # bogus length — skip magic pair, resync
+        b = b[2..-1]
+        continue
+      end
+      var frame_len = 7 + plen
+      if size(b) < frame_len   break   end  # incomplete frame, wait for next read
+      mode = "NSPanel"
+      var frame = b[0 .. frame_len-1]
+      var payload = b[5 .. 4+plen]
+      if self.crc16(b[0 .. 4+plen]) != b.get(5+plen, 2)
+        log('NSP: CRC mismatch in frame ' + frame.tohex(), 2)
+        b = b[frame_len..-1]
+        continue
+      end
+      if self.atc['mirror'] == true && frame[2] == 0x84
+        self.ser.write(frame)   # resend messages with type 0x84 for thermostat page
+      end
+      if plen > 2 && payload != bytes('7B226572726F72223A307D')   # don't publish {"error":0}
+        var jm = string.format("{\"NSPanel\":%s}",payload.asstring())
+        tasmota.publish_result(jm, "RESULT")
+      end
+      b = b[frame_len..-1]
+    end
+    self.rxbuf = b
   end
 end      
 
@@ -447,11 +523,29 @@ def set_disconnect()
   nsp.send('{"wifiState":"nonetwork","rssiLevel":0}')
 end
 
-def sync_weather() # set weather every 60 minutes
+def sync_weather() # weather every weather_interval minutes, with short retries on failure
   var interval = persist.has("weather_interval") ? int(persist.weather_interval) : 60
-  nsp.set_weather()
-  print("Weather forecast synced")
-  tasmota.set_timer(interval*60*1000, sync_weather)
+  var ok = false
+  try
+    ok = nsp.set_weather()
+  except .. as e, m
+    log('NSP: weather sync error: ' + str(e) + ', ' + str(m), 2)
+  end
+  # exactly one outstanding timer: retry quickly on failure, else normal cadence
+  var next = interval*60*1000
+  if ok
+    weather_retries = 0
+    print("Weather forecast synced")
+  else
+    weather_retries += 1
+    if weather_retries <= 3
+      log('NSP: weather sync failed, retrying in 60s (' + str(weather_retries) + '/3)', 2)
+      next = 60*1000
+    else
+      log('NSP: weather sync failing; next attempt at normal interval', 2)
+    end
+  end
+  tasmota.set_timer(next, sync_weather)
 end
 
 tasmota.cmd("Rule3 1") # needed until Berry bug fixed
